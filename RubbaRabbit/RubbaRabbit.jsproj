@@ -54,12 +54,15 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="game-media\archer.png" />
     <Content Include="game-media\bounce.mp3" />
     <Content Include="game-media\button-left.png" />
     <Content Include="game-media\button-pause.png" />
     <Content Include="game-media\button-right.png" />
     <Content Include="game-media\button-up.png" />
     <Content Include="game-media\die.mp3" />
+    <Content Include="game-media\elf.png" />
+    <Content Include="game-media\elf2.png" />
     <Content Include="game-media\enemies.png" />
     <Content Include="game-media\failure.mp3" />
     <Content Include="game-media\font.png" />
@@ -68,6 +71,7 @@
     <Content Include="game-media\level1.js" />
     <Content Include="game-media\level2.js" />
     <Content Include="game-media\level3.js" />
+    <Content Include="game-media\level4.js" />
     <Content Include="game-media\msgbox.png" />
     <Content Include="game-media\music.mp3" />
     <Content Include="game-media\parallax.png" />

@@ -1,5 +1,5 @@
 ﻿/*!
- *  howler.js v1.0.7
+ *  howler.js v1.0.7*
  *  howlerjs.com
  *
  *  (c) 2013, James Simpson of GoldFire Studios
@@ -7,6 +7,11 @@
  *
  *  MIT License
  */
+
+////////////////////////////////////////////////////////////////
+// * One minor tweak for better performance on Win8
+// made by McFunkypants: (see line 249)
+////////////////////////////////////////////////////////////////
 
 (function() {
   // setup
@@ -231,6 +236,21 @@
       } else {
         var newNode = new Audio();
         self._audioNode.push(newNode);
+
+        ////////////////////////////////////////////////////////////////
+        // One minor tweak for better
+        // performance on Win8
+        // made by McFunkypants:
+        ////////////////////////////////////////////////////////////////
+        if (!self._loop) {
+            newNode.msRealTime = true;
+            newNode.msAudioCategory = "GameEffects";
+        }
+        ////////////////////////////////////////////////////////////////
+        // REMOVED if the sound is looped: 
+        // when many concurrent sounds are being played,
+        // this can overwrite the looping music channel.
+        ////////////////////////////////////////////////////////////////
 
         // setup the new audio node
         newNode.src = url;

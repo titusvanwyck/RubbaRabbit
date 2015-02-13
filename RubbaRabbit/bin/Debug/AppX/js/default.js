@@ -16,12 +16,15 @@
 			if (args.detail.kind === activation.ActivationKind.launch) {
 				if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
 					// TODO: This application has been newly launched. Initialize
-					// your application here.
+				    // your application here.
+
+                    // we could make the game init here instead
+
 				} else {
 					// TODO: This application has been reactivated from suspension.
 				    // Restore application state here.
 
-                    // FIXME: unpause
+                    // we could unpause the game here?
 
 				}
 				args.setPromise(WinJS.UI.processAll());
@@ -36,7 +39,7 @@
 			// asynchronous operation before your application is suspended, call
 		    // args.setPromise().
 
-            //FIXME: pause
+            // we could pause the game here
 
 		};
 

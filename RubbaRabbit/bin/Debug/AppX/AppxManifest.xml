@@ -7,7 +7,7 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="a7a4512a-1c57-47b1-ad07-147f34959733" Version="1.1.12.61" Publisher="CN=Mc" ProcessorArchitecture="neutral" />
+  <Identity Name="a7a4512a-1c57-47b1-ad07-147f34959733" Version="1.4.177.78" Publisher="CN=Mc" ProcessorArchitecture="neutral" />
   <Properties>
     <DisplayName>Rubba Rabbit</DisplayName>
     <PublisherDisplayName>McFunkypants</PublisherDisplayName>
@@ -21,7 +21,7 @@
     <Resource Language="EN-US" />
   </Resources>
   <Applications>
-    <Application Id="App" StartPage="default.html">
+    <Application Id="App" StartPage="index.html">
       <VisualElements DisplayName="Rubba Rabbit" Logo="images\logo.png" SmallLogo="images\small.png" Description="An example of the Ludus Game Starter Kit for HTML5 Windows 8 by McFunkypants" ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
         <DefaultTile ShowName="allLogos" ShortName="Rubba Rabbit" WideLogo="images/wide.png" />
         <SplashScreen Image="images\splashscreen.png" />
@@ -38,9 +38,11 @@
     <PackageDependency Name="Microsoft.WinJS.1.0" MinVersion="1.0.9200.20512" />
   </Dependencies>
   <build:Metadata>
-    <build:Item Name="VisualStudio" Version="11.0" />
-    <build:Item Name="OperatingSystem" Version="6.2.9200.16384 (win8_rtm.120725-1247)" />
-    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="11.0.51106.1" />
-    <build:Item Name="MakePri.exe" Version="6.2.9200.16384 (win8_rtm.120725-1247)" />
+    <build:Item Name="VisualStudio" Version="12.0" />
+    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2013" />
+    <build:Item Name="OperatingSystem" Version="6.3.9600.16384 (winblue_rtm.130821-1623)" />
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="12.0.31101.0" />
+    <build:Item Name="ProjectGUID" Value="a7a4512a-1c57-47b1-ad07-147f34959733" />
+    <build:Item Name="MakePri.exe" Version="6.2.9200.20789 (win8_ldr.130802-1617)" />
   </build:Metadata>
 </Package>

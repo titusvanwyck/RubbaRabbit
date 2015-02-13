@@ -198,7 +198,8 @@ jaws.start = function(game_state, options,game_state_setup_options) {
 
   /* Callback for when an asset can't be loaded*/
   function assetError(src) {
-    jaws.log( "Error loading: " + src, true)
+      jaws.log("Error loading: " + src, true)
+//      if (window && window.console && window.console.log) window.console.log("Error loading: " + src); // $CTK
   }
 
   /* Callback for when all assets are loaded */
@@ -676,7 +677,8 @@ jaws.Assets = function Assets() {
     return this.loaded[src]
   }
 
-  this.getPostfix = function(src) {
+// if you get a runtime error here, you are likely using an art asset that has not yet loaded.
+  this.getPostfix = function (src) {
     postfix_regexp = /\.([a-zA-Z0-9]+)/;
     return postfix_regexp.exec(src)[1]
   }

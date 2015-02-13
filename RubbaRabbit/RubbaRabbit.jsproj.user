@@ -2,9 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ReferenceCachePath>C:\Users\titus_000\AppData\Local\Temp\RubbaRabbit_refcache</ReferenceCachePath>
-    <AutoRefresh>true</AutoRefresh>
+    <AutoRefresh>false</AutoRefresh>
     <AppxPackageIsForStore>False</AppxPackageIsForStore>
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>neutral</AppxBuildConfigurationSelection>
+    <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
 </Project>
