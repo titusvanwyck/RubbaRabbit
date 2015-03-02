@@ -106,7 +106,10 @@ THE SOFTWARE.
     var player_framesize = [128, 96]; // pixel dimensions of the player sprite
     var saved_position = [startx, starty]; // respawn point on death
     var enemies; // a sprite list filled with enemies
+
+    //TODO - FW
     var enemy_framesize = [40, 40]; // pixel dimensions of the enemy sprite (if any)
+
     var enemy_destroy_points = 100; // score for destroying an enemy
     var num_enemies = 0; // depends on the enemies layer in the level data
     var sprite_sheet; // the level tile map's data sprite sheet image
@@ -141,7 +144,7 @@ THE SOFTWARE.
 
     // levels
     var level = []; // an array of jason level data objects
-    var starting_level_number = 3; // should be zero except when testing
+    var starting_level_number = 0; // should be zero except when testing
     var current_level_number = starting_level_number; // which one are we playing?
     var pendingLevelComplete = false; // do we need to change levels next frame?
     var levelnext = 1; // used for iterating through .js data globals (eg. window.level1)
@@ -177,7 +180,7 @@ THE SOFTWARE.
     var health_gui_spacing = 40;
     var health_spritenum = 178;
     var pickup_score_amount = 25; // how many points we get for touching a pickup
-    var player_can_attack = false; // game specific - is there an attack button? SET IN initLevel based on json data
+    var player_can_attack = true; // game specific - is there an attack button? SET IN initLevel based on json data
     var startx = 292; // changed by the level data
     var starty = 420;
     var enemy_speed = 2; // pixels per 1/60th sec
@@ -666,6 +669,10 @@ THE SOFTWARE.
                 player.attack_anim = player.animation.slice(9, 11);
                 player.setImage(player.animation.frames[8]);
                 //NOP: player.top_offset++; // nudge one pixel down to account for physics "nudge"
+
+
+
+                //TODO - FW
 
                 // the collision bounding box is smaller than the DRAWING rect
                 // player.rect() is used for rendering but this is used for physics
@@ -1176,24 +1183,104 @@ THE SOFTWARE.
 	* This could be vastly upgraded: a-star pathfinding, seeking the player and more
 	* called every frame to move visible enemies
 	*/
+    //function enemyAI(nme) {
+
+    //    // only animate if it is visible
+    //    if (viewport.isPartlyInside(nme)) {
+    //        nme.x -= enemy_speed;
+    //        nme.y += Math.sin(currentFrameTimestamp * 0.002);
+    //        nme.setImage(nme.move_anim.next());
+
+    //        if (!player.attacking) {
+    //            if (player.collisionrect().collideRect(nme.rect())) {
+    //                log('PLAYER HIT BY AN ENEMY!');
+    //                if (nme.action) nme.action(player);
+    //            }
+    //        }
+    //        else {
+    //            if (player.attackcollisionrect().collideRect(nme.rect())) {
+    //                log('PLAYER KILLED AN ENEMY!');
+    //                if (nme.hitaction) nme.hitaction(player);
+    //            }
+    //        }
+    //    } // visible
+    //}
     function enemyAI(nme) {
 
         // only animate if it is visible
         if (viewport.isPartlyInside(nme)) {
-            nme.x -= enemy_speed;
-            nme.y += Math.sin(currentFrameTimestamp * 0.002);
+
+            switch (nme.enemytype) {
+                case 1:
+                    //Dragon                    
+                    if (player.x > nme.x && (player.x - nme.x) > 6) {
+                        nme.x += enemy_speed;
+                        nme.flipped = 1;
+                    } else if (player.x < nme.x && (nme.x - player.x) > 6) {
+                        nme.x -= enemy_speed;
+                        nme.flipped = 0;
+                    }
+
+                    if (player.y > nme.y) {
+                        nme.y += (enemy_speed / 2);
+                    } else if (player.y < nme.y) {
+                        nme.y -= (enemy_speed / 2);
+                    }
+
+                    break;
+                case 2:
+                    //Wizard
+
+                    switch (nme.direction) {
+                        case -1:
+                            nme.flipped = 0;
+                            nme.x -= 1;
+                            nme.platformlocation -= 1;
+
+                            if (nme.platformlocation === -40) {
+                                nme.direction = 1;
+                            }
+
+                            break;
+                        case 1:
+                            nme.flipped = 1;
+                            nme.x += 1;
+                            nme.platformlocation += 1;
+
+                            if (nme.platformlocation === 76) {
+                                nme.direction = -1;
+                            }
+
+                            break;
+                    }
+
+                    break;
+                case 3:
+                    //Troll
+
+                    break;
+            }
+
+            //nme.x -= enemy_speed;
+            //nme.y += Math.sin(currentFrameTimestamp * 0.002);
+
             nme.setImage(nme.move_anim.next());
 
             if (!player.attacking) {
                 if (player.collisionrect().collideRect(nme.rect())) {
                     log('PLAYER HIT BY AN ENEMY!');
-                    if (nme.action) nme.action(player);
+
+                    if (nme.action) {
+                        nme.action(player);
+                    }
                 }
-            }
-            else {
+            } else {
                 if (player.attackcollisionrect().collideRect(nme.rect())) {
                     log('PLAYER KILLED AN ENEMY!');
-                    if (nme.hitaction) nme.hitaction(player);
+
+                    if (nme.hitaction) {
+                        nme.hitaction(player);
+                    }
                 }
             }
         } // visible
@@ -1202,6 +1289,25 @@ THE SOFTWARE.
     /**
 	* The player has died. Wait a moment and then respawn.
 	*/
+    //function die() {
+    //    player.dead = true;
+
+    //    jaws.game_loop.pause();
+
+    //    setTimeout(function () {
+
+    //        // move to respawn point
+    //        player.x = saved_position[0];
+    //        player.y = saved_position[1];
+
+    //        jaws.game_loop.unpause();
+    //        player.dead = false;
+
+    //        // reset health too
+    //        player.health = health_starting_value;
+
+    //    }, 1000);
+    //}
     function die() {
         player.dead = true;
 
@@ -1538,8 +1644,18 @@ THE SOFTWARE.
 	* Callback function run whenever an enemy 
 	* is attacked and destroyed by the player
 	*/
+    //var enemyDestroyFunction = function (whodunnit) {
+    //    log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
+    //    if (whodunnit) {
+    //        player.score += enemy_destroy_points;
+    //        sfxhitenemy();
+    //        startParticleSystem(this.x, this.y)
+    //        enemies.remove(this); // take out of sprite list
+    //    }
+    //}
+
     var enemyDestroyFunction = function (whodunnit) {
-        log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
+        //log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
         if (whodunnit) {
             player.score += enemy_destroy_points;
             sfxhitenemy();
@@ -1567,6 +1683,54 @@ THE SOFTWARE.
 	* a level tile that was in the "dangerous" layer
 	* player is damaged and dies unless it has more health
 	*/
+    //var dangerActionFunction = function (whodunnit) {
+    //    log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);
+
+    //    // not used in this example game but handy for games with >1 hit point
+    //    if (player.invulerableUntil > currentFrameTimestamp) {
+    //        log('Currently invulnerable - damage ignored.');
+    //    }
+    //    if (whodunnit) {
+    //        player.health--;
+    //        sfxdie();
+
+    //        // debounce damage (in case we touch many things in short succession)
+    //        player.invulerableUntil = currentFrameTimestamp + damageInvulMS;
+
+    //        // in this example game we always start with only 1hp 
+    //        if (player.health < 1) {
+    //            die(true);
+    //        }
+    //    }
+    //};
+
+    var enemyActionFunction = function (whodunnit) {
+        //log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);            
+
+        // not used in this example game but handy for games with >1 hit point
+        if (player.invulerableUntil > currentFrameTimestamp) {
+            log('Currently invulnerable - damage ignored.');
+        }
+        if (whodunnit) {
+            if (this.hitaction) {
+                startParticleSystem(this.x, this.y);
+
+                enemies.remove(this);
+            }
+
+            player.health--;
+            sfxdie();
+
+            // debounce damage (in case we touch many things in short succession)
+            player.invulerableUntil = currentFrameTimestamp + damageInvulMS;
+
+            // in this example game we always start with only 1hp 
+            if (player.health < 1) {
+                die(true);
+            }
+        }
+    };
+
     var dangerActionFunction = function (whodunnit) {
         log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);
 
@@ -1650,6 +1814,16 @@ THE SOFTWARE.
         if (leveldata.layers[6])
             spawnLevel(leveldata.layers[6].data, leveldata.width, leveldata.height, warpActionFunction);
 
+        // enemies #2 - these are not put into the tile_map
+        if (leveldata.layers[7]) {
+            spawnEnemies2(leveldata.layers[7].data, leveldata.width, leveldata.height, dangerActionFunction);
+        }
+
+        // enemies #3 - these are not put into the tile_map
+        if (leveldata.layers[8]) {
+            spawnEnemies3(leveldata.layers[8].data, leveldata.width, leveldata.height, dangerActionFunction);
+        }
+
         if (leveldata.properties.time_limit) {
             // if there is a time limit, you must race the clock to get all the pickups
             log('time_limit is set in the level data: race the clock mode!');
@@ -1704,9 +1878,47 @@ THE SOFTWARE.
     /** 
 	* fills the "enemies" SpriteList with evil entities based on map data
 	*/
+    //function spawnEnemies(data, width, height) {
+    //    log('spawnEnemies...');
+    //    log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+    //    num_enemies = 0;
+
+    //    log('creating enemies sprite list');
+    //    // overwrite any previous sprite list (from the last level)
+    //    enemies = new jaws.SpriteList();
+
+    //    for (var i = 0; i < width; i++) {
+    //        for (var i2 = 0; i2 < height; i2++) {
+
+    //            // not used in this example but handy for a game with more than one enemy style
+    //            var nextspritenum = data[i + (i2 * width)] - 1;
+
+    //            // ignore empty tiles
+    //            if (nextspritenum > -1) {
+
+    //                num_enemies++;
+
+    //                var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: true });
+    //                anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("enemies.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
+    //                anenemy.move_anim = anenemy.animation.slice(0, 7);
+    //                anenemy.setImage(anenemy.animation.frames[0]);
+    //                anenemy.action = dangerActionFunction;
+    //                anenemy.hitaction = enemyDestroyFunction;
+    //                anenemy.enemytype = nextspritenum; // see above
+    //                enemies.push(anenemy);
+
+    //            }
+    //        }
+    //    }
+
+    //    log('done spawnLevel: ' + num_enemies + ' enemies created.');
+    //    return num_enemies;
+    //}
+
     function spawnEnemies(data, width, height) {
         log('spawnEnemies...');
-        log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
 
         num_enemies = 0;
 
@@ -1725,22 +1937,110 @@ THE SOFTWARE.
 
                     num_enemies++;
 
-                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: true });
-                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("enemies.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
-                    anenemy.move_anim = anenemy.animation.slice(0, 7);
-                    anenemy.setImage(anenemy.animation.frames[0]);
-                    anenemy.action = dangerActionFunction;
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("dragon.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(3, 7);
+                    anenemy.setImage(anenemy.animation.frames[3]);
+                    anenemy.action = enemyActionFunction;
                     anenemy.hitaction = enemyDestroyFunction;
-                    anenemy.enemytype = nextspritenum; // see above
+                    anenemy.enemytype = 1; // see above
                     enemies.push(anenemy);
 
                 }
             }
         }
 
-        log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
         return num_enemies;
     }
+
+    /** 
+	* fills the "enemies" SpriteList with evil entities based on map data
+	*/
+    function spawnEnemies2(data, width, height) {
+        log('spawnEnemies2...');
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+        //num_enemies = 0;
+
+        //log('creating enemies sprite list');
+        // overwrite any previous sprite list (from the last level)
+        //enemies = new jaws.SpriteList();
+
+        for (var i = 0; i < width; i++) {
+            for (var i2 = 0; i2 < height; i2++) {
+
+                // not used in this example but handy for a game with more than one enemy style
+                var nextspritenum = data[i + (i2 * width)] - 1;
+
+                // ignore empty tiles
+                if (nextspritenum > -1) {
+
+                    num_enemies++;
+
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: (i2 * TILESIZE) - 14, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("wizard.png"), frame_size: enemy_framesize, frame_duration: 250, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(4, 7);
+                    anenemy.setImage(anenemy.animation.frames[8]);
+                    anenemy.action = enemyActionFunction;
+                    anenemy.hitaction = enemyDestroyFunction;
+                    anenemy.enemytype = 2; // see above
+
+                    anenemy.platformlocation = 0;
+                    anenemy.direction = -1;
+
+                    enemies.push(anenemy);
+
+                }
+            }
+        }
+
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        return num_enemies;
+    }
+
+    function spawnEnemies3(data, width, height) {
+        log('spawnEnemies3...');
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+        //num_enemies = 0;
+
+        //log('creating enemies sprite list');
+        // overwrite any previous sprite list (from the last level)
+        //enemies = new jaws.SpriteList();
+
+        for (var i = 0; i < width; i++) {
+            for (var i2 = 0; i2 < height; i2++) {
+
+                // not used in this example but handy for a game with more than one enemy style
+                var nextspritenum = data[i + (i2 * width)] - 1;
+
+                // ignore empty tiles
+                if (nextspritenum > -1) {
+
+                    num_enemies++;
+
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: (i2 * TILESIZE) - 14, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("troll.png"), frame_size: enemy_framesize, frame_duration: 250, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(4, 7);
+                    anenemy.setImage(anenemy.animation.frames[8]);
+                    anenemy.action = enemyActionFunction;
+                    anenemy.hitaction = enemyDestroyFunction;
+                    anenemy.enemytype = 2; // see above
+
+                    anenemy.platformlocation = 0;
+                    anenemy.direction = -1;
+
+                    enemies.push(anenemy);
+
+                }
+            }
+        }
+
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        return num_enemies;
+    }
+
 
 
 

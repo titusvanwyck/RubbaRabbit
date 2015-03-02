@@ -53,7 +53,7 @@ Ludus.js uses The MIT License
 
 Copyright (c) 2013 by Christer Kaitila
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
+	Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -103,10 +103,13 @@ THE SOFTWARE.
 
     // sprites aplenty
     var player; // the game player animated sprite
-    var player_framesize = [128,96]; // pixel dimensions of the player sprite
+    var player_framesize = [128, 96]; // pixel dimensions of the player sprite
     var saved_position = [startx, starty]; // respawn point on death
     var enemies; // a sprite list filled with enemies
+
+    //TODO - FW
     var enemy_framesize = [40, 40]; // pixel dimensions of the enemy sprite (if any)
+
     var enemy_destroy_points = 100; // score for destroying an enemy
     var num_enemies = 0; // depends on the enemies layer in the level data
     var sprite_sheet; // the level tile map's data sprite sheet image
@@ -141,7 +144,7 @@ THE SOFTWARE.
 
     // levels
     var level = []; // an array of jason level data objects
-    var starting_level_number = 3; // should be zero except when testing
+    var starting_level_number = 0; // should be zero except when testing
     var current_level_number = starting_level_number; // which one are we playing?
     var pendingLevelComplete = false; // do we need to change levels next frame?
     var levelnext = 1; // used for iterating through .js data globals (eg. window.level1)
@@ -177,7 +180,7 @@ THE SOFTWARE.
     var health_gui_spacing = 40;
     var health_spritenum = 178;
     var pickup_score_amount = 25; // how many points we get for touching a pickup
-    var player_can_attack = false; // game specific - is there an attack button? SET IN initLevel based on json data
+    var player_can_attack = true; // game specific - is there an attack button? SET IN initLevel based on json data
     var startx = 292; // changed by the level data
     var starty = 420;
     var enemy_speed = 2; // pixels per 1/60th sec
@@ -230,7 +233,7 @@ THE SOFTWARE.
     var count_gui_spacing = 24;
     var count_gui_digits = 3;
     var count_gui_digits_offset = -102;
-    
+
     // touchscreen control states
     var touchleft;
     var touchright;
@@ -278,17 +281,17 @@ THE SOFTWARE.
     // GAME STATE: THE TITLE SCREEN
     ////////////////////////////////////////////////////////////////
     /**
-    * A jaws state object for a simplistic title screen.
-    * Note that many inits are performed for sprites that are used
-    * by the other states; if you remove the titlescreen,
-    * be sure to create these sprites elsewhere.
-    */
+	* A jaws state object for a simplistic title screen.
+	* Note that many inits are performed for sprites that are used
+	* by the other states; if you remove the titlescreen,
+	* be sure to create these sprites elsewhere.
+	*/
     function TitleScreenState() {
 
         /**
-        * init function for the titlescreen state
-        * also used to create sprites on first run
-        */
+		* init function for the titlescreen state
+		* also used to create sprites on first run
+		*/
         this.setup = function () {
 
             // used only for the particle decorations
@@ -403,8 +406,8 @@ THE SOFTWARE.
         } // title screen setup function
 
         /**
-        * update function (run every frame) for the titlescreen
-        */
+		* update function (run every frame) for the titlescreen
+		*/
         this.update = function () {
 
             // wobble just for fun
@@ -416,7 +419,7 @@ THE SOFTWARE.
             }
 
             if (jaws.pressed("down") ||
-                jaws.pressed("right") ||
+				jaws.pressed("right") ||
 				(!game_paused && !showing_credits && (jaws.mouse_y >= CREDITS_BUTTON_Y))
 				) {
                 log('credits button highlighted');
@@ -425,7 +428,7 @@ THE SOFTWARE.
             }
 
             if (jaws.pressed("up") ||
-                jaws.pressed("left") ||
+				jaws.pressed("left") ||
 				(!game_paused && !showing_credits && (jaws.mouse_y < CREDITS_BUTTON_Y))
 				) {
                 log('start button highlighted');
@@ -438,7 +441,7 @@ THE SOFTWARE.
                 if (jaws.pressed("enter") ||
 					jaws.pressed("space") ||
 					jaws.pressed("left_mouse_button") ||
-                    (!game_paused) // title screen done: onmousedown event only
+					(!game_paused) // title screen done: onmousedown event only
 					) {
 
                     if (menu_item_selected == 1) {
@@ -482,8 +485,8 @@ THE SOFTWARE.
         } // title screen update function
 
         /**
-        * render function for the titlescreen
-        */
+		* render function for the titlescreen
+		*/
         this.draw = function () {
 
             // no need to clear: parallax fills bg
@@ -514,9 +517,9 @@ THE SOFTWARE.
     // GAME STATE: LEVEL TRANSITIONS
     ////////////////////////////////////////////////////////////////
     /**
-    * A jaws state object for the display in between levels (and game over) screen.
-    * Used to display messages like "game over" or "congratulations"
-    */
+	* A jaws state object for the display in between levels (and game over) screen.
+	* Used to display messages like "game over" or "congratulations"
+	*/
     function LevelTransitionScreenState() {
 
         this.setup = function () {
@@ -617,14 +620,14 @@ THE SOFTWARE.
     // GAME STATE: PLAYING
     ////////////////////////////////////////////////////////////////
     /**
-    * The in-game (during play) jaws state object.
-    * This is the workhorse that handles all gameplay.
-    */
+	* The in-game (during play) jaws state object.
+	* This is the workhorse that handles all gameplay.
+	*/
     function PlayState() { // in-game state 
 
         /**
-        * inits for the PlayState class: called once
-        */
+		* inits for the PlayState class: called once
+		*/
         this.setup = function () {
 
             profile_start("playstate setup");
@@ -658,14 +661,18 @@ THE SOFTWARE.
 
                 // the animations used by our hero
                 player.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("archer.png"), frame_size: player_framesize, frame_duration: 75 });
-                player.idle_anim = player.animation.slice(8,9);
-                player.move_anim = player.animation.slice(4,7);
+                player.idle_anim = player.animation.slice(8, 9);
+                player.move_anim = player.animation.slice(4, 7);
                 //player.jump_anim = player.animation.slice(2, 3);
-                player.jump_anim = player.animation.slice(2,3);
-                player.fall_anim = player.animation.slice(0,1);
+                player.jump_anim = player.animation.slice(2, 3);
+                player.fall_anim = player.animation.slice(0, 1);
                 player.attack_anim = player.animation.slice(9, 11);
                 player.setImage(player.animation.frames[8]);
                 //NOP: player.top_offset++; // nudge one pixel down to account for physics "nudge"
+
+
+
+                //TODO - FW
 
                 // the collision bounding box is smaller than the DRAWING rect
                 // player.rect() is used for rendering but this is used for physics
@@ -731,8 +738,8 @@ THE SOFTWARE.
         }; // end setup function
 
         /**
-        * game simulation loop step - called every frame during play
-        */
+		* game simulation loop step - called every frame during play
+		*/
         this.update = function () {
 
             profile_start('UPDATE SIMULATION');
@@ -870,8 +877,8 @@ THE SOFTWARE.
         }; // end update function
 
         /**
-        * the primary game render loop - called every frame during play
-        */
+		* the primary game render loop - called every frame during play
+		*/
         this.draw = function () {
 
             // when pausing, we need to render one frame first
@@ -924,19 +931,19 @@ THE SOFTWARE.
     } // PlayState
 
     /** 
-    * Records the current timestamp for a named event for benchmarking.
-    * Call profile_end using the same event name to store the elapsed time
-    * Only used when debugging to find areas of poor performance.
-    */
+	* Records the current timestamp for a named event for benchmarking.
+	* Call profile_end using the same event name to store the elapsed time
+	* Only used when debugging to find areas of poor performance.
+	*/
     function profile_start(name) {
         if (!debugmode) return;
         profile_starts[name] = new Date().valueOf();
     }
 
     /** 
-    * Records the end timestamp for a named event for benchmarking.
-    * Call profile_start using the same event name to begin
-    */
+	* Records the end timestamp for a named event for benchmarking.
+	* Call profile_start using the same event name to begin
+	*/
     function profile_end(name) {
         if (!debugmode) return;
         profile_length[name] = new Date().valueOf() - profile_starts[name];
@@ -945,8 +952,8 @@ THE SOFTWARE.
     }
 
     /**
-    * tick function for a game timer - called once per second
-    */
+	* tick function for a game timer - called once per second
+	*/
     function stopwatchfunc() {
 
         if (!game_paused) {
@@ -964,8 +971,8 @@ THE SOFTWARE.
     }
 
     /**
-    * draws the in-game HUD (head-up-display) GUI (score, etc.)
-    */
+	* draws the in-game HUD (head-up-display) GUI (score, etc.)
+	*/
     function renderGUI() {
 
         if (!gui_enabled) return;
@@ -1009,7 +1016,7 @@ THE SOFTWARE.
                     profilestring += '<br>last touched sprite: ' + last_touched_sprite_number;
                     //info_tag.innerHTML = "FPS: " + jaws.game_loop.fps + profilestring;
                     info_tag.innerHTML = "FPS: " + fps_prev_framecount + profilestring +
-                        '<br>currentFrameTimestamp: ' + currentFrameTimestamp;
+						'<br>currentFrameTimestamp: ' + currentFrameTimestamp;
                     // + ' anim frame = ' + player.animation.frameNumber(); //+ player.animation.index;
                 }
             }
@@ -1020,9 +1027,9 @@ THE SOFTWARE.
     } // renderGUI function
 
     /**
-    * spawns a spritesheet-based particle animation at these coordinates
-    * implements a reuse POOL and only makes new objects when required
-    */
+	* spawns a spritesheet-based particle animation at these coordinates
+	* implements a reuse POOL and only makes new objects when required
+	*/
     function startParticleSystem(x, y, particleType) {
 
         if (!particles_enabled) return;
@@ -1080,8 +1087,8 @@ THE SOFTWARE.
     }
 
     /**
-    * steps the particle effects simulation
-    */
+	* steps the particle effects simulation
+	*/
     function updateParticles() {
         if (!particles_enabled) return;
         // animate the particles
@@ -1102,11 +1109,11 @@ THE SOFTWARE.
     }
 
     /**
-    * Extracts a portion of an image to a new canvas
-    * Used for chopping up the GUI spritesheet
-    * because each item has a different size and thus 
-    * the jaws.Spritesheet class is insufficient
-    */
+	* Extracts a portion of an image to a new canvas
+	* Used for chopping up the GUI spritesheet
+	* because each item has a different size and thus 
+	* the jaws.Spritesheet class is insufficient
+	*/
     function chopImage(image, x, y, width, height) {
         var cut = document.createElement("canvas");
         cut.width = width;
@@ -1128,10 +1135,10 @@ THE SOFTWARE.
     }
 
     /**
-    * During play, this will pause/unpause the game.
-    * Called by either a resize event (snapped view, etc.)
-    * or the player (touch pause button, press [P]
-    */
+	* During play, this will pause/unpause the game.
+	* Called by either a resize event (snapped view, etc.)
+	* or the player (touch pause button, press [P]
+	*/
     function pauseGame(forced) {
         if (forced) {
             // we might be in the main menu (game_paused==3)
@@ -1162,8 +1169,8 @@ THE SOFTWARE.
     }
 
     /** 
-    * only used during the title screen menu 
-    */
+	* only used during the title screen menu 
+	*/
     function unPause(e) {
         log('Unpausing the titlescreen = start the game!');
         if (game_paused == 3) game_paused = false;
@@ -1172,47 +1179,146 @@ THE SOFTWARE.
     }
 
     /**
-    * Very simplistic enemy AI update function: if visible, animate and check collisions
-    * This could be vastly upgraded: a-star pathfinding, seeking the player and more
-    * called every frame to move visible enemies
-    */
+	* Very simplistic enemy AI update function: if visible, animate and check collisions
+	* This could be vastly upgraded: a-star pathfinding, seeking the player and more
+	* called every frame to move visible enemies
+	*/
+    //function enemyAI(nme) {
+
+    //    // only animate if it is visible
+    //    if (viewport.isPartlyInside(nme)) {
+    //        nme.x -= enemy_speed;
+    //        nme.y += Math.sin(currentFrameTimestamp * 0.002);
+    //        nme.setImage(nme.move_anim.next());
+
+    //        if (!player.attacking) {
+    //            if (player.collisionrect().collideRect(nme.rect())) {
+    //                log('PLAYER HIT BY AN ENEMY!');
+    //                if (nme.action) nme.action(player);
+    //            }
+    //        }
+    //        else {
+    //            if (player.attackcollisionrect().collideRect(nme.rect())) {
+    //                log('PLAYER KILLED AN ENEMY!');
+    //                if (nme.hitaction) nme.hitaction(player);
+    //            }
+    //        }
+    //    } // visible
+    //}
     function enemyAI(nme) {
-                        
+
         // only animate if it is visible
-        if (viewport.isPartlyInside(nme)) { 
-            nme.x -= enemy_speed;
-            nme.y += Math.sin(currentFrameTimestamp * 0.002);
+        if (viewport.isPartlyInside(nme)) {
+
+            switch (nme.enemytype) {
+                case 1:
+                    //Dragon                    
+                    if (player.x > nme.x && (player.x - nme.x) > 6) {
+                        nme.x += enemy_speed;
+                        nme.flipped = 1;
+                    } else if (player.x < nme.x && (nme.x - player.x) > 6) {
+                        nme.x -= enemy_speed;
+                        nme.flipped = 0;
+                    }
+
+                    if (player.y > nme.y) {
+                        nme.y += (enemy_speed / 2);
+                    } else if (player.y < nme.y) {
+                        nme.y -= (enemy_speed / 2);
+                    }
+
+                    break;
+                case 2:
+                    //Wizard
+
+                    switch (nme.direction) {
+                        case -1:
+                            nme.flipped = 0;
+                            nme.x -= 1;
+                            nme.platformlocation -= 1;
+
+                            if (nme.platformlocation === -40) {
+                                nme.direction = 1;
+                            }
+
+                            break;
+                        case 1:
+                            nme.flipped = 1;
+                            nme.x += 1;
+                            nme.platformlocation += 1;
+
+                            if (nme.platformlocation === 76) {
+                                nme.direction = -1;
+                            }
+
+                            break;
+                    }
+
+                    break;
+                case 3:
+                    //Troll
+
+                    break;
+            }
+
+            //nme.x -= enemy_speed;
+            //nme.y += Math.sin(currentFrameTimestamp * 0.002);
+
             nme.setImage(nme.move_anim.next());
 
             if (!player.attacking) {
                 if (player.collisionrect().collideRect(nme.rect())) {
                     log('PLAYER HIT BY AN ENEMY!');
-                    if (nme.action) nme.action(player);
+
+                    if (nme.action) {
+                        nme.action(player);
+                    }
                 }
-            }
-            else {
+            } else {
                 if (player.attackcollisionrect().collideRect(nme.rect())) {
                     log('PLAYER KILLED AN ENEMY!');
-                    if (nme.hitaction) nme.hitaction(player);
+
+                    if (nme.hitaction) {
+                        nme.hitaction(player);
+                    }
                 }
             }
         } // visible
     }
 
     /**
-    * The player has died. Wait a moment and then respawn.
-    */
+	* The player has died. Wait a moment and then respawn.
+	*/
+    //function die() {
+    //    player.dead = true;
+
+    //    jaws.game_loop.pause();
+
+    //    setTimeout(function () {
+
+    //        // move to respawn point
+    //        player.x = saved_position[0];
+    //        player.y = saved_position[1];
+
+    //        jaws.game_loop.unpause();
+    //        player.dead = false;
+
+    //        // reset health too
+    //        player.health = health_starting_value;
+
+    //    }, 1000);
+    //}
     function die() {
         player.dead = true;
 
         jaws.game_loop.pause();
 
         setTimeout(function () {
-            
+
             // move to respawn point
             player.x = saved_position[0];
             player.y = saved_position[1];
-            
+
             jaws.game_loop.unpause();
             player.dead = false;
 
@@ -1223,21 +1329,20 @@ THE SOFTWARE.
     }
 
     /**
-    * Simply apply gravity to the sprite's velocity,
-    * so that we fall down when in the air.
-    * this is a good place or more advanced functionality
-    * such as friction, restitution, handling "jetpacks" and more...
-    */
+	* Simply apply gravity to the sprite's velocity,
+	* so that we fall down when in the air.
+	* this is a good place or more advanced functionality
+	* such as friction, restitution, handling "jetpacks" and more...
+	*/
     function applyPhysics(obj) {
         if (obj.vy < max_velocity_y) { obj.vy += gravity; }
     }
 
     /**
-    * Collision detection physics calculations used by the Player sprite
-    * determine which map tiles are being touched and react occirdingly.
-    */
-    function movePhysics(obj) 
-    {
+	* Collision detection physics calculations used by the Player sprite
+	* determine which map tiles are being touched and react occirdingly.
+	*/
+    function movePhysics(obj) {
         if (!tile_map) {
             return; // level doesn't exist yet!
         }
@@ -1381,11 +1486,11 @@ THE SOFTWARE.
 
 
     /**
-    * Inits the sound engine by preloading the appropriate sound data
-    * ogg and wav versions are only used for online webpage versions
-    * in order to account for varying codec availability between browsers
-    * in win8 store apps, only the mp3 is loaded
-    */
+	* Inits the sound engine by preloading the appropriate sound data
+	* ogg and wav versions are only used for online webpage versions
+	* in order to account for varying codec availability between browsers
+	* in win8 store apps, only the mp3 is loaded
+	*/
     function soundInit() {
         log('soundInit...');
         profile_start('soundInit');
@@ -1415,17 +1520,17 @@ THE SOFTWARE.
 
 
     /**
-    * Empty map tile .action callback used to ensure that
-    * the collision detection routines do not block the player from
-    * travelling through tiles that should be ignored.
-    */
+	* Empty map tile .action callback used to ensure that
+	* the collision detection routines do not block the player from
+	* travelling through tiles that should be ignored.
+	*/
     var noCollideActionFunction = function (whodunnit) {
     };
 
     /**
-    * Collision callback event fired whenever the player touches a map tile
-    * that is "bouncy" - launches the player into the air
-    */
+	* Collision callback event fired whenever the player touches a map tile
+	* that is "bouncy" - launches the player into the air
+	*/
     var bouncyActionFunction = function (whodunnit) {
         log('boing!');
         sfxbounce();
@@ -1435,9 +1540,9 @@ THE SOFTWARE.
     };
 
     /**
-    * Triggered when the level has been successfully cleared.
-    * Switches to the transition state before loading the next level.
-    */
+	* Triggered when the level has been successfully cleared.
+	* Switches to the transition state before loading the next level.
+	*/
     function levelComplete() {
         log('Level ' + current_level_number + ' complete!');
         updateGUIsprites(ScoreGUI, player.score); // immediate update to proper value 
@@ -1447,8 +1552,8 @@ THE SOFTWARE.
     }
 
     /**
-    * Ends the game and returns to the title screen
-    */
+	* Ends the game and returns to the title screen
+	*/
     function gameOver(beatTheGame) {
         log('gameOver!');
 
@@ -1464,9 +1569,9 @@ THE SOFTWARE.
     }
 
     /** 
-    * Changes the sprites used by a SpriteList (score, time, counter, etc) eg. 00000-99999
-    * updateGUIsprites cannot handle negative numbers: only 0..9 in the spritesheet
-    */
+	* Changes the sprites used by a SpriteList (score, time, counter, etc) eg. 00000-99999
+	* updateGUIsprites cannot handle negative numbers: only 0..9 in the spritesheet
+	*/
     function updateGUIsprites(gui, num) {
         if (!gui_enabled) return;
         // individual digits
@@ -1484,9 +1589,9 @@ THE SOFTWARE.
     }
 
     /**
-    * Changes the sprites used by the ScoreGUI, 
-    * counting by 1 each call until we reach player.score
-    */
+	* Changes the sprites used by the ScoreGUI, 
+	* counting by 1 each call until we reach player.score
+	*/
     function updateScoreGUI() {
         if (displayedScore == player.score) return;
 
@@ -1500,10 +1605,10 @@ THE SOFTWARE.
     }
 
     /**
-    * Callback function run whenever the player collides
-    * with a "pickup" item in the world map. The player
-    * gains some points and the item is removed from the world.
-    */
+	* Callback function run whenever the player collides
+	* with a "pickup" item in the world map. The player
+	* gains some points and the item is removed from the world.
+	*/
     var pickupActionFunction = function (whodunnit) // added to pickup sprites in the tile_map during parseLevel
     {
         log('PICKUP ACTION at ' + this.x + ',' + this.y, true);
@@ -1536,11 +1641,21 @@ THE SOFTWARE.
     };
 
     /**
-    * Callback function run whenever an enemy 
-    * is attacked and destroyed by the player
-    */
+	* Callback function run whenever an enemy 
+	* is attacked and destroyed by the player
+	*/
+    //var enemyDestroyFunction = function (whodunnit) {
+    //    log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
+    //    if (whodunnit) {
+    //        player.score += enemy_destroy_points;
+    //        sfxhitenemy();
+    //        startParticleSystem(this.x, this.y)
+    //        enemies.remove(this); // take out of sprite list
+    //    }
+    //}
+
     var enemyDestroyFunction = function (whodunnit) {
-        log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
+        //log('ENEMY DESTROY ACTION at ' + this.x + ',' + this.y, true);
         if (whodunnit) {
             player.score += enemy_destroy_points;
             sfxhitenemy();
@@ -1550,13 +1665,13 @@ THE SOFTWARE.
     }
 
     /**
-    * Callback function run whenever the player collides
-    * with a level tile that was in the "level warp" layer
-    * the level is considered complete and the next map 
-    * will be loaded after a transition state completed
-    * note: this can fire multiple times in a single frame
-    * so be sure to ignore consecutive events
-    */
+	* Callback function run whenever the player collides
+	* with a level tile that was in the "level warp" layer
+	* the level is considered complete and the next map 
+	* will be loaded after a transition state completed
+	* note: this can fire multiple times in a single frame
+	* so be sure to ignore consecutive events
+	*/
     var warpActionFunction = function (whodunnit) {
         log('WARP ACTION at ' + this.x + ',' + this.y, true);
         //levelComplete(); // might get called more than once if we run it here
@@ -1564,10 +1679,58 @@ THE SOFTWARE.
     };
 
     /**
-    * Callback function run whenever the player collides with
-    * a level tile that was in the "dangerous" layer
-    * player is damaged and dies unless it has more health
-    */
+	* Callback function run whenever the player collides with
+	* a level tile that was in the "dangerous" layer
+	* player is damaged and dies unless it has more health
+	*/
+    //var dangerActionFunction = function (whodunnit) {
+    //    log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);
+
+    //    // not used in this example game but handy for games with >1 hit point
+    //    if (player.invulerableUntil > currentFrameTimestamp) {
+    //        log('Currently invulnerable - damage ignored.');
+    //    }
+    //    if (whodunnit) {
+    //        player.health--;
+    //        sfxdie();
+
+    //        // debounce damage (in case we touch many things in short succession)
+    //        player.invulerableUntil = currentFrameTimestamp + damageInvulMS;
+
+    //        // in this example game we always start with only 1hp 
+    //        if (player.health < 1) {
+    //            die(true);
+    //        }
+    //    }
+    //};
+
+    var enemyActionFunction = function (whodunnit) {
+        //log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);            
+
+        // not used in this example game but handy for games with >1 hit point
+        if (player.invulerableUntil > currentFrameTimestamp) {
+            log('Currently invulnerable - damage ignored.');
+        }
+        if (whodunnit) {
+            if (this.hitaction) {
+                startParticleSystem(this.x, this.y);
+
+                enemies.remove(this);
+            }
+
+            player.health--;
+            sfxdie();
+
+            // debounce damage (in case we touch many things in short succession)
+            player.invulerableUntil = currentFrameTimestamp + damageInvulMS;
+
+            // in this example game we always start with only 1hp 
+            if (player.health < 1) {
+                die(true);
+            }
+        }
+    };
+
     var dangerActionFunction = function (whodunnit) {
         log('DANGEROUS ACTION at ' + this.x + ',' + this.y, true);
 
@@ -1590,9 +1753,9 @@ THE SOFTWARE.
     };
 
     /**
-    * inits a new level using json data: sets level specific variables and 
-    * runs spawnLevel function to fill tile_map with sprites aplenty
-    */
+	* inits a new level using json data: sets level specific variables and 
+	* runs spawnLevel function to fill tile_map with sprites aplenty
+	*/
     function initLevel(leveldata) {
         profile_start('initLevel');
         log('initLevel...');
@@ -1620,7 +1783,7 @@ THE SOFTWARE.
         log('Map start_tile: ' + leveldata.properties.start_tile);
         log('Map time_limit: ' + leveldata.properties.time_limit);
         log('Map player_can_attack: ' + leveldata.properties.player_can_attack);
-        
+
 
         // level blocks - foreground
         spawnLevel(leveldata.layers[0].data, leveldata.width, leveldata.height);
@@ -1643,13 +1806,23 @@ THE SOFTWARE.
         if (leveldata.layers[4])
             spawnLevel(leveldata.layers[4].data, leveldata.width, leveldata.height, dangerActionFunction);
 
-		// enemies - these are not put into the tile_map
+        // enemies - these are not put into the tile_map
         if (leveldata.layers[5])
             spawnEnemies(leveldata.layers[5].data, leveldata.width, leveldata.height, dangerActionFunction);
 
-		// warp
+        // warp
         if (leveldata.layers[6])
             spawnLevel(leveldata.layers[6].data, leveldata.width, leveldata.height, warpActionFunction);
+
+        // enemies #2 - these are not put into the tile_map
+        if (leveldata.layers[7]) {
+            spawnEnemies2(leveldata.layers[7].data, leveldata.width, leveldata.height, dangerActionFunction);
+        }
+
+        // enemies #3 - these are not put into the tile_map
+        if (leveldata.layers[8]) {
+            spawnEnemies3(leveldata.layers[8].data, leveldata.width, leveldata.height, dangerActionFunction);
+        }
 
         if (leveldata.properties.time_limit) {
             // if there is a time limit, you must race the clock to get all the pickups
@@ -1703,18 +1876,56 @@ THE SOFTWARE.
     }
 
     /** 
-    * fills the "enemies" SpriteList with evil entities based on map data
-    */
+	* fills the "enemies" SpriteList with evil entities based on map data
+	*/
+    //function spawnEnemies(data, width, height) {
+    //    log('spawnEnemies...');
+    //    log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+    //    num_enemies = 0;
+
+    //    log('creating enemies sprite list');
+    //    // overwrite any previous sprite list (from the last level)
+    //    enemies = new jaws.SpriteList();
+
+    //    for (var i = 0; i < width; i++) {
+    //        for (var i2 = 0; i2 < height; i2++) {
+
+    //            // not used in this example but handy for a game with more than one enemy style
+    //            var nextspritenum = data[i + (i2 * width)] - 1;
+
+    //            // ignore empty tiles
+    //            if (nextspritenum > -1) {
+
+    //                num_enemies++;
+
+    //                var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: true });
+    //                anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("enemies.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
+    //                anenemy.move_anim = anenemy.animation.slice(0, 7);
+    //                anenemy.setImage(anenemy.animation.frames[0]);
+    //                anenemy.action = dangerActionFunction;
+    //                anenemy.hitaction = enemyDestroyFunction;
+    //                anenemy.enemytype = nextspritenum; // see above
+    //                enemies.push(anenemy);
+
+    //            }
+    //        }
+    //    }
+
+    //    log('done spawnLevel: ' + num_enemies + ' enemies created.');
+    //    return num_enemies;
+    //}
+
     function spawnEnemies(data, width, height) {
         log('spawnEnemies...');
-        log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
 
         num_enemies = 0;
 
         log('creating enemies sprite list');
         // overwrite any previous sprite list (from the last level)
         enemies = new jaws.SpriteList();
-        
+
         for (var i = 0; i < width; i++) {
             for (var i2 = 0; i2 < height; i2++) {
 
@@ -1726,30 +1937,118 @@ THE SOFTWARE.
 
                     num_enemies++;
 
-                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: true });
-                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("enemies.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
-                    anenemy.move_anim = anenemy.animation.slice(0, 7);
-                    anenemy.setImage(anenemy.animation.frames[0]);
-                    anenemy.action = dangerActionFunction;
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("dragon.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(3, 7);
+                    anenemy.setImage(anenemy.animation.frames[3]);
+                    anenemy.action = enemyActionFunction;
                     anenemy.hitaction = enemyDestroyFunction;
-                    anenemy.enemytype = nextspritenum; // see above
+                    anenemy.enemytype = 1; // see above
                     enemies.push(anenemy);
 
                 }
             }
         }
 
-        log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        return num_enemies;
+    }
+
+    /** 
+	* fills the "enemies" SpriteList with evil entities based on map data
+	*/
+    function spawnEnemies2(data, width, height) {
+        log('spawnEnemies2...');
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+        //num_enemies = 0;
+
+        //log('creating enemies sprite list');
+        // overwrite any previous sprite list (from the last level)
+        //enemies = new jaws.SpriteList();
+
+        for (var i = 0; i < width; i++) {
+            for (var i2 = 0; i2 < height; i2++) {
+
+                // not used in this example but handy for a game with more than one enemy style
+                var nextspritenum = data[i + (i2 * width)] - 1;
+
+                // ignore empty tiles
+                if (nextspritenum > -1) {
+
+                    num_enemies++;
+
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: (i2 * TILESIZE) - 14, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("wizard.png"), frame_size: enemy_framesize, frame_duration: 250, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(4, 7);
+                    anenemy.setImage(anenemy.animation.frames[8]);
+                    anenemy.action = enemyActionFunction;
+                    anenemy.hitaction = enemyDestroyFunction;
+                    anenemy.enemytype = 2; // see above
+
+                    anenemy.platformlocation = 0;
+                    anenemy.direction = -1;
+
+                    enemies.push(anenemy);
+
+                }
+            }
+        }
+
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
+        return num_enemies;
+    }
+
+    function spawnEnemies3(data, width, height) {
+        log('spawnEnemies3...');
+        //log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
+
+        //num_enemies = 0;
+
+        //log('creating enemies sprite list');
+        // overwrite any previous sprite list (from the last level)
+        //enemies = new jaws.SpriteList();
+
+        for (var i = 0; i < width; i++) {
+            for (var i2 = 0; i2 < height; i2++) {
+
+                // not used in this example but handy for a game with more than one enemy style
+                var nextspritenum = data[i + (i2 * width)] - 1;
+
+                // ignore empty tiles
+                if (nextspritenum > -1) {
+
+                    num_enemies++;
+
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: (i2 * TILESIZE) - 14, anchor: "center_center", flipped: false });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("troll.png"), frame_size: enemy_framesize, frame_duration: 250, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(4, 7);
+                    anenemy.setImage(anenemy.animation.frames[8]);
+                    anenemy.action = enemyActionFunction;
+                    anenemy.hitaction = enemyDestroyFunction;
+                    anenemy.enemytype = 2; // see above
+
+                    anenemy.platformlocation = 0;
+                    anenemy.direction = -1;
+
+                    enemies.push(anenemy);
+
+                }
+            }
+        }
+
+        //log('done spawnLevel: ' + num_enemies + ' enemies created.');
         return num_enemies;
     }
 
 
 
+
     /**
-    * fills tile_map with sprites as defined by json data
-    * tiles can have an action function which is called on collide
-    * returns the number of sprites added to the tilemap
-    */
+	* fills tile_map with sprites as defined by json data
+	* tiles can have an action function which is called on collide
+	* returns the number of sprites added to the tilemap
+	*/
     function spawnLevel(data, width, height, actionFunction) {
         log('spawnLevel...');
         log('parsing [' + data.name + '] ' + data.length + ' array items: ' + width + 'x' + height);
@@ -1790,62 +2089,62 @@ THE SOFTWARE.
     }
 
     /**
-    * Debug console output.
-    * Used only when debugmode > 0.
-    */
+	* Debug console output.
+	* Used only when debugmode > 0.
+	*/
     function log(str) {
         if (!debugmode) return;
         console.log(str);
     }
 
     /**
-    * Speed optimized version of function from line 2459 in jaws.js
-    * the main limitation imposed is only ONE tile per tile location (jaws version allows array)
-    * Returns occupants of all cells touched by 'rect' 
-    */
+	* Speed optimized version of function from line 2459 in jaws.js
+	* the main limitation imposed is only ONE tile per tile location (jaws version allows array)
+	* Returns occupants of all cells touched by 'rect' 
+	*/
     jaws.TileMap.prototype.atRect = function (rect) {
         var objects = []
         var items
 
         //try {
-            var from_col = ~~(rect.x / this.cell_size[0])
-            if (from_col < 0) {
-                from_col = 0
-            }
-            var to_col = ~~(rect.right / this.cell_size[0])
-            if (to_col >= this.size[0]) {
-                to_col = this.size[0] - 1
-            }
-            var from_row = ~~(rect.y / this.cell_size[1])
-            if (from_row < 0) {
-                from_row = 0
-            }
-            var to_row = ~~(rect.bottom / this.cell_size[1])
-            if (to_row >= this.size[1]) {
-                to_row = this.size[1] - 1
-            }
+        var from_col = ~~(rect.x / this.cell_size[0])
+        if (from_col < 0) {
+            from_col = 0
+        }
+        var to_col = ~~(rect.right / this.cell_size[0])
+        if (to_col >= this.size[0]) {
+            to_col = this.size[0] - 1
+        }
+        var from_row = ~~(rect.y / this.cell_size[1])
+        if (from_row < 0) {
+            from_row = 0
+        }
+        var to_row = ~~(rect.bottom / this.cell_size[1])
+        if (to_row >= this.size[1]) {
+            to_row = this.size[1] - 1
+        }
 
-            for (var col = from_col; col <= to_col; col++) {
-                for (var row = from_row; row <= to_row; row++) {
-                    //this.cells[col][row].forEach(function (item, total) {
-                    //    if (objects.indexOf(item) == -1) { objects.push(item) }
-                    //})
-                    if (this.cells[col][row][0]) objects.push(this.cells[col][row][0]);
-                }
+        for (var col = from_col; col <= to_col; col++) {
+            for (var row = from_row; row <= to_row; row++) {
+                //this.cells[col][row].forEach(function (item, total) {
+                //    if (objects.indexOf(item) == -1) { objects.push(item) }
+                //})
+                if (this.cells[col][row][0]) objects.push(this.cells[col][row][0]);
             }
+        }
         //}
         //catch (e) {
-            // ... problems
+        // ... problems
         //}
-    return objects;
+        return objects;
     }
 
     /**
-    * A speed-optimized version of the jaws TileMap render code
-    * the main difference is less error checking and array manipulation
-    * plus only ONE tile per coordinate is returned
-    * comment out this function if you need overlapping tiles
-    */
+	* A speed-optimized version of the jaws TileMap render code
+	* the main difference is less error checking and array manipulation
+	* plus only ONE tile per coordinate is returned
+	* comment out this function if you need overlapping tiles
+	*/
     jaws.TileMap.prototype.drawTilesInRect = function (rect) {
         //var objects = []
         //var items
@@ -1928,9 +2227,9 @@ THE SOFTWARE.
     }
 
     /**
-    * Detects the availability of touch input (on tablets, etc)
-    * and starts listening for pointer events as required
-    */
+	* Detects the availability of touch input (on tablets, etc)
+	* and starts listening for pointer events as required
+	*/
     function initMSTouchEvents() {
 
         lbutt = document.getElementById('buttonleft');
@@ -2003,8 +2302,8 @@ THE SOFTWARE.
     }
 
     /**
-    * sets the visibility of the on-screen touch controls
-    */
+	* sets the visibility of the on-screen touch controls
+	*/
     function touchControlsVisible(turnon) {
         var displayState = 'none';
         if (turnon) displayState = 'block';
@@ -2017,9 +2316,9 @@ THE SOFTWARE.
     }
 
     /**
-    * moves all GUI sprites around depending on window size
-    * this function allows Ludus games to be "responsive"
-    */
+	* moves all GUI sprites around depending on window size
+	* this function allows Ludus games to be "responsive"
+	*/
     function liquidLayoutGUI() {
         log('liquidLayoutGUI');
 
@@ -2061,10 +2360,10 @@ THE SOFTWARE.
     }
 
     /**
-    * this function is used to detect when the screen size has changed
-    * due to rotation of a tablet or going into "snapped" view
-    * it resizes the game canvas and pauses the game
-    */
+	* this function is used to detect when the screen size has changed
+	* due to rotation of a tablet or going into "snapped" view
+	* it resizes the game canvas and pauses the game
+	*/
     function onResize(e) {
         log('onResize!');
         log('window size is now ' + window.innerWidth + 'x' + window.innerHeight);
@@ -2086,11 +2385,11 @@ THE SOFTWARE.
     }
 
     /**
-    * Main Game Inits begin here - called by jaws.onload.
-    * Enumerates level data and window events and requests art/sounds to be downloaded.
-    * Many other inits occur only once art/sounds have been loaded:
-    * see TitleScreenState.setup() and PlayState.setup()
-    */
+	* Main Game Inits begin here - called by jaws.onload.
+	* Enumerates level data and window events and requests art/sounds to be downloaded.
+	* Many other inits occur only once art/sounds have been loaded:
+	* see TitleScreenState.setup() and PlayState.setup()
+	*/
     function initLudus() {
 
         log('initLudus');
@@ -2130,9 +2429,9 @@ THE SOFTWARE.
     };
 
     /**
-    * All initializations are run once this event fires
-    * which occurs after the html page has loaded.
-    */
+	* All initializations are run once this event fires
+	* which occurs after the html page has loaded.
+	*/
     log('Ludus engine is ready. Waiting for onload event...');
     jaws.onload = initLudus;
 
