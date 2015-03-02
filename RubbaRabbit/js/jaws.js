@@ -51,8 +51,8 @@ jaws.unpack = function() {
   var make_global = ["Sprite", "SpriteList", "Animation", "Viewport", "SpriteSheet", "Parallax", "TileMap", "Rect", "pressed"]
 
   make_global.forEach( function(item, array, total) {
-    if(window[item])  { jaws.log(item + "already exists in global namespace") }
-    else              { window[item] = jaws[item] }
+	if(window[item])  { jaws.log(item + "already exists in global namespace") }
+	else              { window[item] = jaws[item] }
   });
 }
 
@@ -63,9 +63,9 @@ jaws.unpack = function() {
  */
 jaws.log = function(msg, append) {
   if(log_tag) {
-    msg += "<br />"
-    if(append) { log_tag.innerHTML = log_tag.innerHTML.toString() + msg } 
-    else { log_tag.innerHTML = msg }
+	msg += "<br />"
+	if(append) { log_tag.innerHTML = log_tag.innerHTML.toString() + msg } 
+	else { log_tag.innerHTML = msg }
   }
 }
 
@@ -91,12 +91,12 @@ jaws.init = function(options) {
    */
   log_tag = document.getElementById('jaws-log')
   if(jaws.url_parameters["debug"]) {
-    if(!log_tag) {
-      log_tag = document.createElement("div")
-      log_tag.id = "jaws-log"
-      log_tag.style.cssText = "overflow: auto; color: #aaaaaa; width: 300px; height: 150px; margin: 40px auto 0px auto; padding: 5px; border: #444444 1px solid; clear: both; font: 10px verdana; text-align: left;"
-      document.body.appendChild(log_tag)
-    }
+	if(!log_tag) {
+	  log_tag = document.createElement("div")
+	  log_tag.id = "jaws-log"
+	  log_tag.style.cssText = "overflow: auto; color: #aaaaaa; width: 300px; height: 150px; margin: 40px auto 0px auto; padding: 5px; border: #444444 1px solid; clear: both; font: 10px verdana; text-align: left;"
+	  document.body.appendChild(log_tag)
+	}
   }
 
   jaws.canvas = document.getElementsByTagName('canvas')[0]
@@ -110,11 +110,11 @@ jaws.init = function(options) {
 
   // Niether <canvas> or <div>, create a <canvas> with specified or default width/height
   else {
-    jaws.canvas = document.createElement("canvas")
-    jaws.canvas.width = options.width
-    jaws.canvas.height = options.height
-    jaws.context = jaws.canvas.getContext('2d')
-    document.body.appendChild(jaws.canvas)
+	jaws.canvas = document.createElement("canvas")
+	jaws.canvas.width = options.width
+	jaws.canvas.height = options.height
+	jaws.context = jaws.canvas.getContext('2d')
+	document.body.appendChild(jaws.canvas)
   }
 
   
@@ -166,7 +166,7 @@ jaws.start = function(game_state, options,game_state_setup_options) {
   if(!options) options = {};
   var fps = options.fps || 60
   if (options.loading_screen === undefined)
-    options.loading_screen = true
+	options.loading_screen = true
   
   if(!options.width) options.width = 500; 
   if(!options.height) options.height = 300;
@@ -177,35 +177,35 @@ jaws.start = function(game_state, options,game_state_setup_options) {
   jaws.setupInput()
 
   function displayProgress(percent_done) {
-    if(jaws.context && options.loading_screen) {
-      jaws.context.save()
-      jaws.context.fillStyle  = "black"
-      jaws.context.fillRect(0, 0, jaws.width, jaws.height);
-      jaws.context.textAlign  = "center"
-      jaws.context.fillStyle  = "white"
-      jaws.context.font       = "15px terminal";
-      jaws.context.fillText("Loading", jaws.width/2, jaws.height/2-30);
-      jaws.context.font       = "bold 30px terminal";
-      jaws.context.fillText(percent_done + "%", jaws.width/2, jaws.height/2);
-      jaws.context.restore()
-    }
+	if(jaws.context && options.loading_screen) {
+	  jaws.context.save()
+	  jaws.context.fillStyle  = "black"
+	  jaws.context.fillRect(0, 0, jaws.width, jaws.height);
+	  jaws.context.textAlign  = "center"
+	  jaws.context.fillStyle  = "white"
+	  jaws.context.font       = "15px terminal";
+	  jaws.context.fillText("Loading", jaws.width/2, jaws.height/2-30);
+	  jaws.context.font       = "bold 30px terminal";
+	  jaws.context.fillText(percent_done + "%", jaws.width/2, jaws.height/2);
+	  jaws.context.restore()
+	}
   }
   /* Callback for when one single assets has been loaded */
   function assetLoaded(src, percent_done) {
-    jaws.log( percent_done + "%: " + src, true)    
-    displayProgress(percent_done)
+	jaws.log( percent_done + "%: " + src, true)    
+	displayProgress(percent_done)
   }
 
   /* Callback for when an asset can't be loaded*/
   function assetError(src) {
-      jaws.log("Error loading: " + src, true)
+	  jaws.log("Error loading: " + src, true)
 //      if (window && window.console && window.console.log) window.console.log("Error loading: " + src); // $CTK
   }
 
   /* Callback for when all assets are loaded */
   function assetsLoaded() {
-    jaws.log("all assets loaded", true)
-    jaws.switchGameState(game_state||window, {fps: fps},game_state_setup_options)
+	jaws.log("all assets loaded", true)
+	jaws.switchGameState(game_state||window, {fps: fps},game_state_setup_options)
   }
 
   jaws.log("assets.loadAll()", true)
@@ -344,9 +344,9 @@ jaws.getUrlParameters = function() {
   var vars = [], hash;
   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
   for(var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split('=');
-    vars.push(hash[0]);
-    vars[hash[0]] = hash[1];
+	hash = hashes[i].split('=');
+	vars.push(hash[0]);
+	vars[hash[0]] = hash[1];
   }
   return vars;
 }
@@ -466,8 +466,8 @@ function handleKeyUp(e) {
   var human_name = keycode_to_string[event.keyCode]
   pressed_keys[human_name] = false
   if(on_keyup_callbacks[human_name]) { 
-    on_keyup_callbacks[human_name](human_name)
-    e.preventDefault()
+	on_keyup_callbacks[human_name](human_name)
+	e.preventDefault()
   }
   if(prevent_default_keys[human_name]) { e.preventDefault() }
 }
@@ -480,8 +480,8 @@ function handleKeyDown(e) {
   var human_name = keycode_to_string[event.keyCode]
   pressed_keys[human_name] = true
   if(on_keydown_callbacks[human_name]) { 
-    on_keydown_callbacks[human_name](human_name)
-    e.preventDefault()
+	on_keydown_callbacks[human_name](human_name)
+	e.preventDefault()
   }
   if(prevent_default_keys[human_name]) { e.preventDefault() }
 }
@@ -496,8 +496,8 @@ function handleMouseDown(e) {
   }
   pressed_keys[human_name] = true
   if(on_keydown_callbacks[human_name]) { 
-    on_keydown_callbacks[human_name](human_name)
-    e.preventDefault()
+	on_keydown_callbacks[human_name](human_name)
+	e.preventDefault()
   }
 }
 
@@ -514,8 +514,8 @@ function handleMouseUp(e) {
   }
   pressed_keys[human_name] = false
   if(on_keyup_callbacks[human_name]) { 
-    on_keyup_callbacks[human_name](human_name)
-    e.preventDefault()
+	on_keyup_callbacks[human_name](human_name)
+	e.preventDefault()
   }
 }
 
@@ -549,7 +549,7 @@ var prevent_default_keys = []
  */
 jaws.preventDefaultKeys = function(array_of_strings) {
   array_of_strings.forEach( function(item, index) {
-    prevent_default_keys[item] = true
+	prevent_default_keys[item] = true
   });
 }
 
@@ -575,12 +575,12 @@ jaws.pressed = function(key) {
  */
 jaws.on_keydown = function(key, callback) {
   if(jaws.isArray(key)) {
-    for(var i=0; key[i]; i++) {
-      on_keydown_callbacks[key[i]] = callback
-    }
+	for(var i=0; key[i]; i++) {
+	  on_keydown_callbacks[key[i]] = callback
+	}
   }
   else {
-    on_keydown_callbacks[key] = callback
+	on_keydown_callbacks[key] = callback
   }
 }
 
@@ -589,12 +589,12 @@ jaws.on_keydown = function(key, callback) {
  */
 jaws.on_keyup = function(key, callback) {
   if(jaws.isArray(key)) {
-    for(var i=0; key[i]; i++) {
-      on_keyup_callbacks[key[i]] = callback
-    }
+	for(var i=0; key[i]; i++) {
+	  on_keyup_callbacks[key[i]] = callback
+	}
   }
   else {
-    on_keyup_callbacks[key] = callback
+	on_keyup_callbacks[key] = callback
   }
 }
 
@@ -647,7 +647,7 @@ jaws.Assets = function Assets() {
   var that = this
 
   this.length = function() {
-    return this.src_list.length
+	return this.src_list.length
   }
 
   /*
@@ -658,34 +658,34 @@ jaws.Assets = function Assets() {
    *
    */
   this.get = function(src) {
-    if(jaws.isArray(src)) {
-      return src.map( function(i) { return that.data[i] } )
-    }
-    else {
-      if(this.loaded[src])  { return this.data[src] }
-      else                  { jaws.log("No such asset: " + src, true) }
-    }
+	if(jaws.isArray(src)) {
+	  return src.map( function(i) { return that.data[i] } )
+	}
+	else {
+	  if(this.loaded[src])  { return this.data[src] }
+	  else                  { jaws.log("No such asset: " + src, true) }
+	}
   }
 
   /** Return true if src is in the process of loading (but not yet finishing) */
   this.isLoading = function(src) {
-    return this.loading[src]
+	return this.loading[src]
   }
 
   /** Return true if src is loaded in full */
   this.isLoaded = function(src) {
-    return this.loaded[src]
+	return this.loaded[src]
   }
 
 // if you get a runtime error here, you are likely using an art asset that has not yet loaded.
   this.getPostfix = function (src) {
-    postfix_regexp = /\.([a-zA-Z0-9]+)/;
-    return postfix_regexp.exec(src)[1]
+	postfix_regexp = /\.([a-zA-Z0-9]+)/;
+	return postfix_regexp.exec(src)[1]
   }
 
   this.getType = function(src) {
-    var postfix = this.getPostfix(src)
-    return (this.file_type[postfix] ? this.file_type[postfix] : postfix)
+	var postfix = this.getPostfix(src)
+	return (this.file_type[postfix] ? this.file_type[postfix] : postfix)
   }
 
   /**
@@ -699,31 +699,31 @@ jaws.Assets = function Assets() {
    *
    */
   this.add = function(src) {
-    if(jaws.isArray(src)) { for(var i=0; src[i]; i++) { this.add(src[i]) } }
-    else                  { this.src_list.push(src) }
-    // else                  { var path = this.root + src; this.src_list.push(path) }
-    return this
+	if(jaws.isArray(src)) { for(var i=0; src[i]; i++) { this.add(src[i]) } }
+	else                  { this.src_list.push(src) }
+	// else                  { var path = this.root + src; this.src_list.push(path) }
+	return this
   }
 
   /** Load all pre-specified assets */
   this.loadAll = function(options) {
-    this.load_count = 0
-    this.error_count = 0
+	this.load_count = 0
+	this.error_count = 0
 
-    /* With these 3 callbacks you can display progress and act when all assets are loaded */
-    this.onload = options.onload
-    this.onerror = options.onerror
-    this.onfinish = options.onfinish
+	/* With these 3 callbacks you can display progress and act when all assets are loaded */
+	this.onload = options.onload
+	this.onerror = options.onerror
+	this.onfinish = options.onfinish
 
-    for(i=0; this.src_list[i]; i++) {
-      this.load(this.src_list[i])
-    }
+	for(i=0; this.src_list[i]; i++) {
+	  this.load(this.src_list[i])
+	}
   }
 
   /** Calls onload right away if asset is available since before, otherwise try to load it */
   this.getOrLoad = function(src, onload, onerror) {
-    if(this.data[src]) { onload() }
-    else { this.load(src, onload, onerror) }
+	if(this.data[src]) { onload() }
+	else { this.load(src, onload, onerror) }
   }
 
   /** 
@@ -737,42 +737,42 @@ jaws.Assets = function Assets() {
    *
    */
   this.load = function(src, onload, onerror) {
-    var asset = {}
-    asset.src = src
-    asset.onload = onload
-    asset.onerror = onerror
-    this.loading[src] = true
+	var asset = {}
+	asset.src = src
+	asset.onload = onload
+	asset.onerror = onerror
+	this.loading[src] = true
 
-    var resolved_src = this.root + asset.src;
-    if (this.bust_cache) { resolved_src += "?" + parseInt(Math.random()*10000000) }
+	var resolved_src = this.root + asset.src;
+	if (this.bust_cache) { resolved_src += "?" + parseInt(Math.random()*10000000) }
 
-    switch(this.getType(asset.src)) {
-      case "image":
-        asset.image = new Image()
-        asset.image.asset = asset // enables us to access asset in the callback
-        //
-        // TODO: Make http://dev.ippa.se/webgames/test2.html work
-        //
-        asset.image.onload = this.assetLoaded
-        asset.image.onerror = this.assetError
-        asset.image.src = resolved_src
-        break;
-      case "audio":
-        asset.audio = new Audio(resolved_src)
-        asset.audio.asset = asset         // enables us to access asset in the callback
-        this.data[asset.src] = asset.audio
-        asset.audio.addEventListener("canplay", this.assetLoaded, false);
-        asset.audio.addEventListener("error", this.assetError, false);
-        asset.audio.load()
-        break;
-      default:
-        var req = new XMLHttpRequest()
-        req.asset = asset         // enables us to access asset in the callback
-        req.onreadystatechange = this.assetLoaded
-        req.open('GET', resolved_src, true)
-        req.send(null)
-        break;
-    }
+	switch(this.getType(asset.src)) {
+	  case "image":
+		asset.image = new Image()
+		asset.image.asset = asset // enables us to access asset in the callback
+		//
+		// TODO: Make http://dev.ippa.se/webgames/test2.html work
+		//
+		asset.image.onload = this.assetLoaded
+		asset.image.onerror = this.assetError
+		asset.image.src = resolved_src
+		break;
+	  case "audio":
+		asset.audio = new Audio(resolved_src)
+		asset.audio.asset = asset         // enables us to access asset in the callback
+		this.data[asset.src] = asset.audio
+		asset.audio.addEventListener("canplay", this.assetLoaded, false);
+		asset.audio.addEventListener("error", this.assetError, false);
+		asset.audio.load()
+		break;
+	  default:
+		var req = new XMLHttpRequest()
+		req.asset = asset         // enables us to access asset in the callback
+		req.onreadystatechange = this.assetLoaded
+		req.open('GET', resolved_src, true)
+		req.send(null)
+		break;
+	}
   }
 
   /** @private
@@ -782,60 +782,60 @@ jaws.Assets = function Assets() {
    * 3) Call callbacks if defined
    */
   this.assetLoaded = function(e) {
-    var asset = this.asset
-    var src = asset.src
-    var filetype = that.getType(asset.src)
+	var asset = this.asset
+	var src = asset.src
+	var filetype = that.getType(asset.src)
 
-    // Keep loading and loaded hash up to date
-    that.loaded[src] = true
-    that.loading[src] = false
+	// Keep loading and loaded hash up to date
+	that.loaded[src] = true
+	that.loading[src] = false
 
-    // Process data depending differently on postfix
-    if(filetype == "json") {
-      if (this.readyState != 4) { return }
-      that.data[asset.src] = JSON.parse(this.responseText)
-    }
-    else if(filetype == "image") {
-      var new_image = that.image_to_canvas ? jaws.imageToCanvas(asset.image) : asset.image
-      if(that.fuchia_to_transparent && that.getPostfix(asset.src) == "bmp") { new_image = fuchiaToTransparent(new_image) }
-      that.data[asset.src] = new_image
-    }
-    else if(filetype == "audio") {
-      asset.audio.removeEventListener("canplay", that.assetLoaded, false);
-      that.data[asset.src] = asset.audio
-    }
+	// Process data depending differently on postfix
+	if(filetype == "json") {
+	  if (this.readyState != 4) { return }
+	  that.data[asset.src] = JSON.parse(this.responseText)
+	}
+	else if(filetype == "image") {
+	  var new_image = that.image_to_canvas ? jaws.imageToCanvas(asset.image) : asset.image
+	  if(that.fuchia_to_transparent && that.getPostfix(asset.src) == "bmp") { new_image = fuchiaToTransparent(new_image) }
+	  that.data[asset.src] = new_image
+	}
+	else if(filetype == "audio") {
+	  asset.audio.removeEventListener("canplay", that.assetLoaded, false);
+	  that.data[asset.src] = asset.audio
+	}
 
-    that.load_count++
-    that.processCallbacks(asset, true)
+	that.load_count++
+	that.processCallbacks(asset, true)
   }
 
   /** @private */
   this.assetError = function(e) {
-    var asset = this.asset
-    that.error_count++
-    that.processCallbacks(asset, false)
+	var asset = this.asset
+	that.error_count++
+	that.processCallbacks(asset, false)
   }
 
   /** @private */
   this.processCallbacks = function(asset, ok) {
-    var percent = parseInt( (that.load_count+that.error_count) / that.src_list.length * 100)
+	var percent = parseInt( (that.load_count+that.error_count) / that.src_list.length * 100)
 
-    if(ok) {
-      if(that.onload)   that.onload(asset.src, percent);
-      if(asset.onload)  asset.onload();
-    }
-    else {
-      if(that.onerror)  that.onerror(asset.src, percent);
-      if(asset.onerror) asset.onerror(asset);
-    }
+	if(ok) {
+	  if(that.onload)   that.onload(asset.src, percent);
+	  if(asset.onload)  asset.onload();
+	}
+	else {
+	  if(that.onerror)  that.onerror(asset.src, percent);
+	  if(asset.onerror) asset.onerror(asset);
+	}
 
-    // When loadAll() is 100%, call onfinish() and kill callbacks (reset with next loadAll()-call)
-    if(percent==100) {
-      if(that.onfinish) { that.onfinish() }
-      that.onload = null
-      that.onerror = null
-      that.onfinish = null
-    }
+	// When loadAll() is 100%, call onfinish() and kill callbacks (reset with next loadAll()-call)
+	if(percent==100) {
+	  if(that.onfinish) { that.onfinish() }
+	  that.onload = null
+	  that.onerror = null
+	  that.onfinish = null
+	}
   }
 }
 
@@ -850,9 +850,9 @@ function fuchiaToTransparent(image) {
   var img_data = context.getImageData(0,0,canvas.width,canvas.height)
   var pixels = img_data.data
   for(var i = 0; i < pixels.length; i += 4) {
-    if(pixels[i]==255 && pixels[i+1]==0 && pixels[i+2]==255) { // Color: Fuchia
-      pixels[i+3] = 0 // Set total see-through transparency
-    }
+	if(pixels[i]==255 && pixels[i+1]==0 && pixels[i+2]==255) { // Color: Fuchia
+	  pixels[i+3] = 0 // Set total see-through transparency
+	}
   }
   context.putImageData(img_data,0,0);
   return canvas
@@ -867,13 +867,13 @@ var jaws = (function(jaws) {
 // requestAnim shim layer by Paul Irish
 window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame    ||
-          window.oRequestAnimationFrame      ||
-          window.msRequestAnimationFrame     ||
-          function(/* function */ callback, /* DOMElement */ element){
-            window.setTimeout(callback, 16.666);
-          };
+		  window.webkitRequestAnimationFrame ||
+		  window.mozRequestAnimationFrame    ||
+		  window.oRequestAnimationFrame      ||
+		  window.msRequestAnimationFrame     ||
+		  function(/* function */ callback, /* DOMElement */ element){
+			window.setTimeout(callback, 16.666);
+		  };
 })();
 
 /**
@@ -916,43 +916,43 @@ jaws.GameLoop = function GameLoop(game_object, options,game_state_setup_options)
    * does currently not factor in pause-time
    */
   this.runtime = function() {
-    return (this.last_tick - this.first_tick)
+	return (this.last_tick - this.first_tick)
   }
 
   /** Start the game loop by calling setup() once and then loop update()/draw() forever with given FPS */
   this.start = function() {
-    jaws.log("game loop start", true)
+	jaws.log("game loop start", true)
   
-    this.first_tick = (new Date()).getTime();
-    this.current_tick = (new Date()).getTime();
-    this.last_tick = (new Date()).getTime(); 
+	this.first_tick = (new Date()).getTime();
+	this.current_tick = (new Date()).getTime();
+	this.last_tick = (new Date()).getTime(); 
 
-    if(game_object.setup) { game_object.setup(game_state_setup_options) }
-    step_delay = 1000 / options.fps;
+	if(game_object.setup) { game_object.setup(game_state_setup_options) }
+	step_delay = 1000 / options.fps;
    
-    if(options.fps == 60) {
-      requestAnimFrame(this.loop)
-    }
-    else {
-      update_id = setInterval(this.loop, step_delay);
-    }
+	if(options.fps == 60) {
+	  requestAnimFrame(this.loop)
+	}
+	else {
+	  update_id = setInterval(this.loop, step_delay);
+	}
 
-    jaws.log("game loop loop", true)
+	jaws.log("game loop loop", true)
   }
   
   /** The core of the game loop. Calculate a mean FPS and call update()/draw() if game loop is not paused */
   this.loop = function() {
-    that.current_tick = (new Date()).getTime();
-    that.tick_duration = that.current_tick - that.last_tick
-    that.fps = mean_value.add(1000/that.tick_duration).get()
+	that.current_tick = (new Date()).getTime();
+	that.tick_duration = that.current_tick - that.last_tick
+	that.fps = mean_value.add(1000/that.tick_duration).get()
 
-    if(!stopped && !paused) {
-      if(game_object.update) { game_object.update() }
-      if(game_object.draw)   { game_object.draw() }
-      that.ticks++
-    }
-    if(options.fps == 60 && !stopped) requestAnimFrame(that.loop);
-    that.last_tick = that.current_tick;
+	if(!stopped && !paused) {
+	  if(game_object.update) { game_object.update() }
+	  if(game_object.draw)   { game_object.draw() }
+	  that.ticks++
+	}
+	if(options.fps == 60 && !stopped) requestAnimFrame(that.loop);
+	that.last_tick = that.current_tick;
   }
   
   /** Pause the game loop. loop() will still get called but not update() / draw() */
@@ -963,8 +963,8 @@ jaws.GameLoop = function GameLoop(game_object, options,game_state_setup_options)
 
   /** Stop the game loop */
   this.stop = function() { 
-    if(update_id) clearInterval(update_id); 
-    stopped = true;
+	if(update_id) clearInterval(update_id); 
+	stopped = true;
   }
 }
 
@@ -975,21 +975,21 @@ function MeanValue(size) {
   this.value
   
   this.add = function(value) {
-    if(this.values.length > this.size) {  // is values filled?
-      this.values.splice(0,1)
-      this.value = 0
-      for(var i=0; this.values[i]; i++) {
-        this.value += this.values[i]
-      }
-      this.value = this.value / this.size
-    }
-    this.values.push(value)
-    
-    return this
+	if(this.values.length > this.size) {  // is values filled?
+	  this.values.splice(0,1)
+	  this.value = 0
+	  for(var i=0; this.values[i]; i++) {
+		this.value += this.values[i]
+	  }
+	  this.value = this.value / this.size
+	}
+	this.values.push(value)
+	
+	return this
   }
 
   this.get = function() {
-    return parseInt(this.value)
+	return parseInt(this.value)
   }
 
 }
@@ -1076,7 +1076,7 @@ jaws.Rect.prototype.collidePoint = function(x, y) {
 /** Returns true if calling rect overlaps with given rect in any way */
 jaws.Rect.prototype.collideRect = function(rect) {
   return ((this.x >= rect.x && this.x <= rect.right) || (rect.x >= this.x && rect.x <= this.right)) &&
-         ((this.y >= rect.y && this.y <= rect.bottom) || (rect.y >= this.y && rect.y <= this.bottom))
+		 ((this.y >= rect.y && this.y <= rect.bottom) || (rect.y >= this.y && rect.y <= this.bottom))
 }
 
 /*
@@ -1125,18 +1125,18 @@ jaws.Sprite = function Sprite(options) {
   this.set(options)  
   
   if(options.context) { 
-    this.context = options.context
+	this.context = options.context
   }
   else if(options.dom) {  // No canvas context? Switch to DOM-based spritemode
-    this.dom = options.dom
-    this.createDiv() 
+	this.dom = options.dom
+	this.createDiv() 
   }
   if(!options.context && !options.dom) {                  // Defaults to jaws.context or jaws.dom
-    if(jaws.context)  this.context = jaws.context;
-    else {
-      this.dom = jaws.dom;
-      this.createDiv() 
-    }
+	if(jaws.context)  this.context = jaws.context;
+	else {
+	  this.dom = jaws.dom;
+	  this.createDiv() 
+	}
   }
 }
 
@@ -1186,16 +1186,16 @@ jaws.Sprite.prototype.setImage =      function(value) {
 
   // An image, great, set this.image and return
   if(jaws.isDrawable(value)) {
-    this.image = value
-    return this.cacheOffsets() 
+	this.image = value
+	return this.cacheOffsets() 
   }
   // Not an image, therefore an asset string, i.e. "ship.bmp"
   else {
-    // Assets already loaded? Set this.image
-    if(jaws.assets.isLoaded(value)) { this.image = jaws.assets.get(value); this.cacheOffsets(); }
+	// Assets already loaded? Set this.image
+	if(jaws.assets.isLoaded(value)) { this.image = jaws.assets.get(value); this.cacheOffsets(); }
 
-    // Not loaded? Load it with callback to set image.
-    else { jaws.assets.load(value, function() { that.image = jaws.assets.get(value); that.cacheOffsets(); }) }
+	// Not loaded? Load it with callback to set image.
+	else { jaws.assets.load(value, function() { that.image = jaws.assets.get(value); that.cacheOffsets(); }) }
   }
   return this
 }
@@ -1266,30 +1266,30 @@ jaws.Sprite.prototype.resizeTo =      function(width, height) {
 */
 jaws.Sprite.prototype.anchor = function(value) {
   var anchors = {
-    top_left: [0,0],
-    left_top: [0,0],
-    center_left: [0,0.5],
-    left_center: [0,0.5],
-    bottom_left: [0,1],
-    left_bottom: [0,1],
-    top_center: [0.5,0],
-    center_top: [0.5,0],
-    center_center: [0.5,0.5],
-    center: [0.5,0.5],
-    bottom_center: [0.5,1],
-    center_bottom: [0.5,1],
-    top_right: [1,0],
-    right_top: [1,0],
-    center_right: [1,0.5],
-    right_center: [1,0.5],
-    bottom_right: [1,1],
-    right_bottom: [1,1]
+	top_left: [0,0],
+	left_top: [0,0],
+	center_left: [0,0.5],
+	left_center: [0,0.5],
+	bottom_left: [0,1],
+	left_bottom: [0,1],
+	top_center: [0.5,0],
+	center_top: [0.5,0],
+	center_center: [0.5,0.5],
+	center: [0.5,0.5],
+	bottom_center: [0.5,1],
+	center_bottom: [0.5,1],
+	top_right: [1,0],
+	right_top: [1,0],
+	center_right: [1,0.5],
+	right_center: [1,0.5],
+	bottom_right: [1,1],
+	right_bottom: [1,1]
   }
 
   if(a = anchors[value]) {
-    this.anchor_x = a[0]
-    this.anchor_y = a[1]
-    if(this.image) this.cacheOffsets();
+	this.anchor_x = a[0]
+	this.anchor_y = a[1]
+	if(this.image) this.cacheOffsets();
   }
   return this
 }
@@ -1324,10 +1324,10 @@ jaws.Sprite.prototype.createDiv = function() {
   this.div = document.createElement("div")
   this.div.style.position = "absolute"
   if(this.image) {
-    this.div.style.width = this.image.width + "px"
-    this.div.style.height = this.image.height + "px"
-    if(this.image.toDataURL)  { this.div.style.backgroundImage = "url(" + this.image.toDataURL() + ")" }
-    else                      { this.div.style.backgroundImage = "url(" + this.image.src + ")" }
+	this.div.style.width = this.image.width + "px"
+	this.div.style.height = this.image.height + "px"
+	if(this.image.toDataURL)  { this.div.style.backgroundImage = "url(" + this.image.toDataURL() + ")" }
+	else                      { this.div.style.backgroundImage = "url(" + this.image.src + ")" }
   }
   if(this.dom) { this.dom.appendChild(this.div) }
   this.updateDiv()
@@ -1726,27 +1726,27 @@ jaws.SpriteList.prototype.isSpriteList = function() {
 jaws.SpriteList.prototype.load = function(objects) {
   var that = this;  // Since forEach changes this into DOMWindow.. hm, lame.
   if(jaws.isArray(objects)) {
-    // If this is an array of JSON representations, parse it
-    if(objects.every(function(item) { return item._constructor })) {
-      parseArray(objects)
-    } else {
-      // This is an array of Sprites, load it directly
-      this.sprites = objects
-    }
+	// If this is an array of JSON representations, parse it
+	if(objects.every(function(item) { return item._constructor })) {
+	  parseArray(objects)
+	} else {
+	  // This is an array of Sprites, load it directly
+	  this.sprites = objects
+	}
   }
   else if(jaws.isString(objects)) { parseArray( JSON.parse(objects) ); console.log(objects) }
   this.updateLength()
   
   function parseArray(array) {
-    array.forEach( function(data) {
-      var constructor = data._constructor ? eval(data._constructor) : data.constructor
-      if(jaws.isFunction(constructor)) {
-        jaws.log("Creating " + data._constructor + "(" + data.toString() + ")", true)
-        var object = new constructor(data)
-        object._constructor = data._constructor || data.constructor.name
-        that.push(object);
-      }
-    });
+	array.forEach( function(data) {
+	  var constructor = data._constructor ? eval(data._constructor) : data.constructor
+	  if(jaws.isFunction(constructor)) {
+		jaws.log("Creating " + data._constructor + "(" + data.toString() + ")", true)
+		var object = new constructor(data)
+		object._constructor = data._constructor || data.constructor.name
+		that.push(object);
+	  }
+	});
   }
 }
 
@@ -1764,32 +1764,32 @@ jaws.SpriteList.prototype.remove = function(obj) {
  */
 jaws.SpriteList.prototype.draw = function() {
   this.forEach(function(ea) {
-    ea.draw()
+	ea.draw()
   })
 }
 
 /** Draw sprites in spritelist where condition(sprite) returns true */
 jaws.SpriteList.prototype.drawIf = function(condition) {
   this.forEach(function(ea) {
-    if( condition(ea) ) {
-      ea.draw()
-    }
+	if( condition(ea) ) {
+	  ea.draw()
+	}
   })
 }
 
 /** Call update() on all sprites in spritelist */
 jaws.SpriteList.prototype.update = function() {
   this.forEach(function(ea) {
-    ea.update()
+	ea.update()
   })
 }
 
 /** Call update() on sprites in spritelist where condition(sprite) returns true */
 jaws.SpriteList.prototype.updateIf = function(condition) {
   this.forEach(function(ea) {
-    if( condition(ea) ) {
-      ea.update()
-    }
+	if( condition(ea) ) {
+	  ea.update()
+	}
   })
 }
 
@@ -1805,7 +1805,7 @@ jaws.SpriteList.prototype.deleteIf = function(condition) {
 /** Remove sprites in spritelist where condition(sprite) returns true  */
 jaws.SpriteList.prototype.removeIf = function(condition) {
   this.sprites = this.filter(function(ea) {
-    return !condition(ea)
+	return !condition(ea)
   })
   this.updateLength()
 }
@@ -1852,29 +1852,29 @@ jaws.SpriteSheet = function SpriteSheet(options) {
   this.offset = options.offset || 0
   
   if(options.scale_image) {
-    var image = (jaws.isDrawable(options.image) ? options.image : jaws.assets.get(options.image))
-    this.frame_size[0] *= options.scale_image
-    this.frame_size[1] *= options.scale_image
-    options.image = jaws.gfx.retroScaleImage(image, options.scale_image)
+	var image = (jaws.isDrawable(options.image) ? options.image : jaws.assets.get(options.image))
+	this.frame_size[0] *= options.scale_image
+	this.frame_size[1] *= options.scale_image
+	options.image = jaws.gfx.retroScaleImage(image, options.scale_image)
   }
 
   var index = 0
 
   // Cut out tiles from Top -> Bottom
   if(this.orientation == "down") {  
-    for(var x=this.offset; x < this.image.width; x += this.frame_size[0]) {
-      for(var y=0; y < this.image.height; y += this.frame_size[1]) {
-        this.frames.push( cutImage(this.image, x, y, this.frame_size[0], this.frame_size[1]) )
-      }
-    }
+	for(var x=this.offset; x < this.image.width; x += this.frame_size[0]) {
+	  for(var y=0; y < this.image.height; y += this.frame_size[1]) {
+		this.frames.push( cutImage(this.image, x, y, this.frame_size[0], this.frame_size[1]) )
+	  }
+	}
   }
   // Cut out tiles from Left -> Right
   else {
-    for(var y=this.offset; y < this.image.height; y += this.frame_size[1]) {
-      for(var x=0; x < this.image.width; x += this.frame_size[0]) {
-        this.frames.push( cutImage(this.image, x, y, this.frame_size[0], this.frame_size[1]) )
-      }
-    }
+	for(var y=this.offset; y < this.image.height; y += this.frame_size[1]) {
+	  for(var x=0; x < this.image.width; x += this.frame_size[0]) {
+		this.frames.push( cutImage(this.image, x, y, this.frame_size[0], this.frame_size[1]) )
+	  }
+	}
   }
 }
 
@@ -1916,17 +1916,17 @@ jaws.Parallax = function Parallax(options) {
 
 /** Draw all layers in parallax scroller */
 jaws.Parallax.prototype.draw = function(options) {
-    var layer, numx, numy, initx;
+	var layer, numx, numy, initx;
 
-    for(var i=0; i < this.layers.length; i++) {
-        layer = this.layers[i]
+	for(var i=0; i < this.layers.length; i++) {
+		layer = this.layers[i]
 
 		if (this.repeat_x) {
 			initx = -((this.camera_x / layer.damping) % layer.width);
 		} else {
 			initx = -(this.camera_x / layer.damping) 
 		}		
-        
+		
 		if (this.repeat_y) {
 			layer.y = -((this.camera_y / layer.damping) % layer.height);
 		} else {
@@ -1934,23 +1934,23 @@ jaws.Parallax.prototype.draw = function(options) {
 		}
 
 		layer.x = initx;
-        while (layer.y < jaws.height) {
-            while (layer.x < jaws.width) {
+		while (layer.y < jaws.height) {
+			while (layer.x < jaws.width) {
 				if (layer.x + layer.width >= 0 && layer.y + layer.height >= 0) { //Make sure it's on screen
 					layer.draw(); //Draw only if actually on screen, for performance reasons
 				}
-                layer.x = layer.x + layer.width;      
+				layer.x = layer.x + layer.width;      
 				if (!this.repeat_x) {
 					break;
 				}
-            }
-            layer.y = layer.y + layer.height;
-            layer.x = initx;
+			}
+			layer.y = layer.y + layer.height;
+			layer.x = initx;
 			if (!this.repeat_y) {
 				break;
 			}
-        }
-    }
+		}
+	}
 }
 /** Add a new layer to the parallax scroller */
 jaws.Parallax.prototype.addLayer = function(options) {
@@ -2027,16 +2027,16 @@ jaws.Animation = function Animation(options) {
   this.offset = options.offset || 0
 
   if(options.scale_image) {
-    var image = (jaws.isDrawable(options.sprite_sheet) ? options.sprite_sheet : jaws.assets.get(options.sprite_sheet))
-    this.frame_size[0] *= options.scale_image
-    this.frame_size[1] *= options.scale_image
-    options.sprite_sheet = jaws.gfx.retroScaleImage(image, options.scale_image)
+	var image = (jaws.isDrawable(options.sprite_sheet) ? options.sprite_sheet : jaws.assets.get(options.sprite_sheet))
+	this.frame_size[0] *= options.scale_image
+	this.frame_size[1] *= options.scale_image
+	options.sprite_sheet = jaws.gfx.retroScaleImage(image, options.scale_image)
   }
 
   if(options.sprite_sheet) {
-    var image = (jaws.isDrawable(options.sprite_sheet) ? options.sprite_sheet : jaws.assets.get(options.sprite_sheet))
-    var sprite_sheet = new jaws.SpriteSheet({image: image, frame_size: this.frame_size, orientation: this.orientation, offset: this.offset})
-    this.frames = sprite_sheet.frames
+	var image = (jaws.isDrawable(options.sprite_sheet) ? options.sprite_sheet : jaws.assets.get(options.sprite_sheet))
+	var sprite_sheet = new jaws.SpriteSheet({image: image, frame_size: this.frame_size, orientation: this.orientation, offset: this.offset})
+	this.frames = sprite_sheet.frames
   }
 
   /* Initializing timer-stuff */
@@ -2055,24 +2055,24 @@ jaws.Animation.prototype.update = function() {
   this.last_tick = this.current_tick;
 
   if(this.sum_tick > this.frame_duration) {
-    this.index += this.frame_direction
-    this.sum_tick = 0
+	this.index += this.frame_direction
+	this.sum_tick = 0
   }
   if( (this.index >= this.frames.length) || (this.index < 0) ) {
-    if(this.bounce) {
-      this.frame_direction = -this.frame_direction
-      this.index += this.frame_direction * 2
-    }
-    else if(this.loop) {
-      this.index = 0
-    }
-    else {
-      this.index -= this.frame_direction
-      if (this.on_end) {
-        this.on_end()
-        this.on_end = null
-      }
-    }
+	if(this.bounce) {
+	  this.frame_direction = -this.frame_direction
+	  this.index += this.frame_direction * 2
+	}
+	else if(this.loop) {
+	  this.index = 0
+	}
+	else {
+	  this.index -= this.frame_direction
+	  if (this.on_end) {
+		this.on_end()
+		this.on_end = null
+	  }
+	}
   }
   return this
 }
@@ -2168,16 +2168,16 @@ jaws.Viewport = function ViewPort(options) {
 
   /** Move viewport x pixels horizontally and y pixels vertically */
   this.move = function(x, y) {
-    x && (this.x += x)
-    y && (this.y += y)
-    this.verifyPosition()
+	x && (this.x += x)
+	y && (this.y += y)
+	this.verifyPosition()
   };
   
   /** Move viewport to given x/y */
   this.moveTo = function(x, y) {
-    if(!(x==undefined)) { this.x = x }
-    if(!(y==undefined)) { this.y = y }
-    this.verifyPosition()
+	if(!(x==undefined)) { this.x = x }
+	if(!(y==undefined)) { this.y = y }
+	this.verifyPosition()
   };
 
   /** 
@@ -2193,18 +2193,18 @@ jaws.Viewport = function ViewPort(options) {
    *
    */
   this.isOutside = function(item) {
-    return(!that.isInside(item))
+	return(!that.isInside(item))
   };
 
   /** Returns true if item is inside viewport  */
   this.isInside = function(item) {
-    return( item.x >= that.x && item.x <= (that.x + that.width) && item.y >= that.y && item.y <= (that.y + that.height) )
+	return( item.x >= that.x && item.x <= (that.x + that.width) && item.y >= that.y && item.y <= (that.y + that.height) )
   };
 
   /** Returns true if item is partly (down to 1 pixel) inside viewport */
   this.isPartlyInside = function(item) {
-    var rect = item.rect()
-    return( rect.right >= that.x && rect.x <= (that.x + that.width) && rect.bottom >= that.y && item.y <= (that.y + that.height) )
+	var rect = item.rect()
+	return( rect.right >= that.x && rect.x <= (that.x + that.width) && rect.bottom >= that.y && item.y <= (that.y + that.height) )
   };
   
   /** Returns true of item is left of viewport */
@@ -2225,9 +2225,9 @@ jaws.Viewport = function ViewPort(options) {
    * Usefull for sidescrollers when you wan't to keep the player in the center of the screen no matter how he moves.
    */
   this.centerAround = function(item) {
-    this.x = Math.floor(item.x - this.width / 2);
-    this.y = Math.floor(item.y - this.height / 2);
-    this.verifyPosition();
+	this.x = Math.floor(item.x - this.width / 2);
+	this.y = Math.floor(item.y - this.height / 2);
+	this.verifyPosition();
   };
 
   /**
@@ -2240,10 +2240,10 @@ jaws.Viewport = function ViewPort(options) {
    * viewport.forceInsideVisibleArea(player, 20)  // make sure player doesn't get left behind
    */
   this.forceInsideVisibleArea = function(item, buffer) {
-    if(item.x < this.x+buffer)               { item.x = this.x+buffer }
-    if(item.x > this.x+jaws.width-buffer)    { item.x = this.x+jaws.width-buffer }
-    if(item.y < this.y+buffer)               { item.y = this.y+buffer }
-    if(item.y > this.y+jaws.height-buffer)   { item.y = this.y+jaws.height-buffer }
+	if(item.x < this.x+buffer)               { item.x = this.x+buffer }
+	if(item.x > this.x+jaws.width-buffer)    { item.x = this.x+jaws.width-buffer }
+	if(item.y < this.y+buffer)               { item.y = this.y+buffer }
+	if(item.y > this.y+jaws.height-buffer)   { item.y = this.y+jaws.height-buffer }
   }
   
   /**
@@ -2254,10 +2254,10 @@ jaws.Viewport = function ViewPort(options) {
    * viewport.forceInside(player, 10) 
    */
   this.forceInside = function(item, buffer) {
-    if(item.x < buffer)               { item.x = buffer }
-    if(item.x > this.max_x-buffer)    { item.x = this.max_x-buffer }
-    if(item.y < buffer)               { item.y = buffer }
-    if(item.y > this.max_y-buffer)    { item.y = this.max_y-buffer }
+	if(item.x < buffer)               { item.x = buffer }
+	if(item.x > this.max_x-buffer)    { item.x = this.max_x-buffer }
+	if(item.y < buffer)               { item.y = buffer }
+	if(item.y > this.max_y-buffer)    { item.y = this.max_y-buffer }
   }
 
 
@@ -2273,21 +2273,21 @@ jaws.Viewport = function ViewPort(options) {
   * 
   */
   this.apply = function(func) {
-    this.context.save()
-    this.context.translate(-this.x, -this.y)
-    func()
-    this.context.restore()
+	this.context.save()
+	this.context.translate(-this.x, -this.y)
+	func()
+	this.context.restore()
   };
 
   /** 
    * if obj is an array-like object, iterate through it and call draw() on each item if it's partly inside the viewport 
    */
   this.draw = function( obj ) {
-    this.apply( function() {
-      if(obj.forEach) obj.forEach( that.drawIfPartlyInside );
-      else if(obj.draw) that.drawIfPartlyInside(obj);
-      // else if(jaws.isFunction(obj) {};  // add apply()-functionally here?
-    });
+	this.apply( function() {
+	  if(obj.forEach) obj.forEach( that.drawIfPartlyInside );
+	  else if(obj.draw) that.drawIfPartlyInside(obj);
+	  // else if(jaws.isFunction(obj) {};  // add apply()-functionally here?
+	});
   }
 
   /** 
@@ -2295,26 +2295,26 @@ jaws.Viewport = function ViewPort(options) {
    * this is simular to viewport.draw( tile_map.all() ) but optmized for Huge game worlds (tile maps)
    */
   this.drawTileMap = function( tile_map ) {
-    var sprites = tile_map.atRect({ x: this.x, y: this.y, right: this.x + this.width, bottom: this.y + this.height })
-    this.apply( function() {
-      for(var i=0; i < sprites.length; i++) sprites[i].draw();
-    });
+	var sprites = tile_map.atRect({ x: this.x, y: this.y, right: this.x + this.width, bottom: this.y + this.height })
+	this.apply( function() {
+	  for(var i=0; i < sprites.length; i++) sprites[i].draw();
+	});
   }
 
   /** draws 'item' if it's partly inside the viewport */
   this.drawIfPartlyInside = function(item) { 
-    if(that.isPartlyInside(item)) item.draw(); 
+	if(that.isPartlyInside(item)) item.draw(); 
   }
 
   /** @private */
   this.verifyPosition = function() {
-    var max = this.max_x - this.width
-    if(this.x < 0)      { this.x = 0 }
-    if(this.x > max)    { this.x = max }
+	var max = this.max_x - this.width
+	if(this.x < 0)      { this.x = 0 }
+	if(this.x > max)    { this.x = max }
 
-    var max = this.max_y - this.height
-    if(this.y < 0)      { this.y = 0 }
-    if(this.y > max)    { this.y = max }
+	var max = this.max_y - this.height
+	if(this.y < 0)      { this.y = 0 }
+	if(this.y > max)    { this.y = max }
   };
  
   this.moveTo(options.x||0, options.y||0)
@@ -2355,28 +2355,28 @@ jaws.TileMap = function TileMap(options) {
   this.cells = new Array(this.size[0])
 
   for(var col=0; col < this.size[0]; col++) {
-    this.cells[col] = new Array(this.size[1])
-    for(var row=0; row < this.size[1]; row++) {
-      this.cells[col][row] = [] // populate each cell with an empty array
-    }
+	this.cells[col] = new Array(this.size[1])
+	for(var row=0; row < this.size[1]; row++) {
+	  this.cells[col][row] = [] // populate each cell with an empty array
+	}
   }
 }
 
 /** Clear all cells in tile map */
 jaws.TileMap.prototype.clear = function() {
   for(var col=0; col < this.size[0]; col++) {
-    for(var row=0; row < this.size[1]; row++) {
-      this.cells[col][row] = []
-    }
+	for(var row=0; row < this.size[1]; row++) {
+	  this.cells[col][row] = []
+	}
   }
 }
 
 /** Sort arrays in each cell in tile map according to sorter-function (see Array.sort) */
 jaws.TileMap.prototype.sortCells = function(sortFunction) {
   for(var col=0; col < this.size[0]; col++) {
-    for(var row=0; row < this.size[1]; row++) {
-      this.cells[col][row].sort( sortFunction )
-    }
+	for(var row=0; row < this.size[1]; row++) {
+	  this.cells[col][row].sort( sortFunction )
+	}
   }
 }
 
@@ -2388,16 +2388,16 @@ jaws.TileMap.prototype.sortCells = function(sortFunction) {
 jaws.TileMap.prototype.push = function(obj) {
   var that = this
   if(obj.forEach) { 
-    obj.forEach( function(item) { that.push(item) } )
-    return obj
+	obj.forEach( function(item) { that.push(item) } )
+	return obj
   }
   if(obj.rect) {
-    return this.pushAsRect(obj, obj.rect())
+	return this.pushAsRect(obj, obj.rect())
   }
   else {
-    var col = parseInt(obj.x / this.cell_size[0])
-    var row = parseInt(obj.y / this.cell_size[1])
-    return this.pushToCell(col, row, obj)
+	var col = parseInt(obj.x / this.cell_size[0])
+	var row = parseInt(obj.y / this.cell_size[1])
+	return this.pushToCell(col, row, obj)
   }
 }
 /** 
@@ -2406,13 +2406,13 @@ jaws.TileMap.prototype.push = function(obj) {
  */
 jaws.TileMap.prototype.pushAsPoint = function(obj) {
   if(Array.isArray(obj)) { 
-    for(var i=0; i < obj.length; i++) { this.pushAsPoint(obj[i]) }
-    return obj
+	for(var i=0; i < obj.length; i++) { this.pushAsPoint(obj[i]) }
+	return obj
   }
   else {
-    var col = parseInt(obj.x / this.cell_size[0])
-    var row = parseInt(obj.y / this.cell_size[1])
-    return this.pushToCell(col, row, obj)
+	var col = parseInt(obj.x / this.cell_size[0])
+	var row = parseInt(obj.y / this.cell_size[1])
+	return this.pushToCell(col, row, obj)
   }
 }
 
@@ -2423,14 +2423,14 @@ jaws.TileMap.prototype.pushAsRect = function(obj, rect) {
   //jaws.log("rect.right: " + rect.right + " from/to col: " + from_col + " " + to_col, true)
 
   for(var col = from_col; col <= to_col; col++) {
-    var from_row = parseInt(rect.y / this.cell_size[1])
-    var to_row = parseInt((rect.bottom-1) / this.cell_size[1])
-    
-    //jaws.log("rect.bottom " + rect.bottom + " from/to row: " + from_row + " " + to_row, true)
-    for(var row = from_row; row <= to_row; row++) {
-      // console.log("pushAtRect() col/row: " + col + "/" + row + " - " + this.cells[col][row])
-      this.pushToCell(col, row, obj)
-    }
+	var from_row = parseInt(rect.y / this.cell_size[1])
+	var to_row = parseInt((rect.bottom-1) / this.cell_size[1])
+	
+	//jaws.log("rect.bottom " + rect.bottom + " from/to row: " + from_row + " " + to_row, true)
+	for(var row = from_row; row <= to_row; row++) {
+	  // console.log("pushAtRect() col/row: " + col + "/" + row + " - " + this.cells[col][row])
+	  this.pushToCell(col, row, obj)
+	}
   }
   return obj
 }
@@ -2463,12 +2463,12 @@ jaws.TileMap.prototype.atRect = function(rect) {
   var items
 
   try {
-    var from_col = parseInt(rect.x / this.cell_size[0])
+	var from_col = parseInt(rect.x / this.cell_size[0])
 	if (from_col < 0) {
 		from_col = 0
 	}
-    var to_col = parseInt(rect.right / this.cell_size[0])
-    if (to_col >= this.size[0]) {
+	var to_col = parseInt(rect.right / this.cell_size[0])
+	if (to_col >= this.size[0]) {
 		to_col = this.size[0] - 1
 	}
 	var from_row = parseInt(rect.y / this.cell_size[1])
@@ -2480,16 +2480,16 @@ jaws.TileMap.prototype.atRect = function(rect) {
 		to_row = this.size[1] - 1
 	}
 
-    for(var col = from_col; col <= to_col; col++) {
-      for(var row = from_row; row <= to_row; row++) {
-        this.cells[col][row].forEach( function(item, total) { 
-          if(objects.indexOf(item) == -1) { objects.push(item) }
-        })
-      }
-    }
+	for(var col = from_col; col <= to_col; col++) {
+	  for(var row = from_row; row <= to_row; row++) {
+		this.cells[col][row].forEach( function(item, total) { 
+		  if(objects.indexOf(item) == -1) { objects.push(item) }
+		})
+	  }
+	}
   }
   catch(e) {
-    // ... problems
+	// ... problems
   }
   return objects
 }
@@ -2498,11 +2498,11 @@ jaws.TileMap.prototype.atRect = function(rect) {
 jaws.TileMap.prototype.all = function() {
   var all = []
   for(var col=0; col < this.size[0]; col++) {
-    for(var row=0; row < this.size[1]; row++) {
-      this.cells[col][row].forEach( function(element, total) {
-        all.push(element)
-      });
-    }
+	for(var row=0; row < this.size[1]; row++) {
+	  this.cells[col][row].forEach( function(element, total) {
+		all.push(element)
+	  });
+	}
   }
   return all
 }
@@ -2538,7 +2538,7 @@ jaws.TileMap.prototype.findPath = function(start_position, end_position, inverte
   var end_row = parseInt(end_position[1] / this.cell_size[1])
   
   if (start_col === end_col && start_row === end_row) {
-    return [{x: start_position[0], y:start_position[1]}]
+	return [{x: start_position[0], y:start_position[1]}]
   }
   
   var col = start_col
@@ -2550,86 +2550,86 @@ jaws.TileMap.prototype.findPath = function(start_position, end_position, inverte
   
   var open_nodes = new Array(this.size[0])
   for(var i=0; i < this.size[0]; i++) {
-    open_nodes[i] = new Array(this.size[1])
-    for(var j=0; j < this.size[1]; j++) {
-      open_nodes[i][j] = false
-    }
+	open_nodes[i] = new Array(this.size[1])
+	for(var j=0; j < this.size[1]; j++) {
+	  open_nodes[i][j] = false
+	}
   }
   open_nodes[col][row] = {parent: [], G: 0, score: max_distance}
   
   var closed_nodes = new Array(this.size[0])
   for(var i=0; i < this.size[0]; i++) {
-    closed_nodes[i] = new Array(this.size[1])
-    for(var j=0; j < this.size[1]; j++) {
-      closed_nodes[i][j] = false
-    }
+	closed_nodes[i] = new Array(this.size[1])
+	for(var j=0; j < this.size[1]; j++) {
+	  closed_nodes[i][j] = false
+	}
   }
 
   var crowFlies = function(from_node, to_node) {
-    return Math.abs(to_node[0]-from_node[0]) + Math.abs(to_node[1]-from_node[1]);
+	return Math.abs(to_node[0]-from_node[0]) + Math.abs(to_node[1]-from_node[1]);
   }
   
   var findInClosed = function(col, row) {
-    if (closed_nodes[col][row])
-    {
-      return true
-    }
-    else {return false}
+	if (closed_nodes[col][row])
+	{
+	  return true
+	}
+	else {return false}
   }
   
   while ( !(col === end_col && row === end_row) ) {
-    /**
-     *  add the nodes above, below, to the left and right of the current node
-     *  if it doesn't have a sprite in it, and it hasn't already been added
-     *  to the closed list, recalculate its score from the current node and
-     *  update it if it's already in the open list.
-     */
-    var left_right_up_down = []
-    if (col > 0) { left_right_up_down.push([col-1, row]) }
-    if (col < this.size[0]-1) { left_right_up_down.push([col+1, row]) }
-    if (row > 0) {left_right_up_down.push([col, row-1])}
-    if (row < this.size[1]-1) { left_right_up_down.push([col, row+1]) }
-    
-    for (var i=0 ; i<left_right_up_down.length ; i++) {
-        var c = left_right_up_down[i][0]
-        var r = left_right_up_down[i][1]
-        if ( ( (this.cell(c, r).length === 0 && !inverted) || 
-               (this.cell(c, r).length  >  0 &&  inverted)    ) && 
-               !findInClosed(c, r) ) 
-        {
-            score = step+1+crowFlies([c, r] , [end_col, end_row])
-            if (!open_nodes[c][r] || (open_nodes[c][r] && open_nodes[c][r].score > score)) {
-                open_nodes[c][r] = {parent: [col, row], G: step+1, score: score}
-            }
-        }
-    }
-    
-    /**
-     *  find the lowest scoring open node
-     */
-    var best_node = {node: [], parent: [], score: max_distance, G: 0}
-    for (var i=0 ; i<this.size[0] ; i++) {
-      for(var j=0 ; j<this.size[1] ; j++) {
-        if (open_nodes[i][j] && open_nodes[i][j].score < best_node.score) {
-          best_node.node = [i, j]
-          best_node.parent = open_nodes[i][j].parent
-          best_node.score = open_nodes[i][j].score
-          best_node.G = open_nodes[i][j].G
-        }
-      }
-    }
-    if (best_node.node.length === 0) { //open_nodes is empty, no route found to end node
-      return []
-    }
-    
-    //This doesn't stop the node being added again, but it doesn't seem to matter
-    open_nodes[best_node.node[0]][best_node.node[1]] = false
-    
-    col = best_node.node[0]
-    row = best_node.node[1]
-    step = best_node.G
-    
-    closed_nodes[col][row] = {parent: best_node.parent}
+	/**
+	 *  add the nodes above, below, to the left and right of the current node
+	 *  if it doesn't have a sprite in it, and it hasn't already been added
+	 *  to the closed list, recalculate its score from the current node and
+	 *  update it if it's already in the open list.
+	 */
+	var left_right_up_down = []
+	if (col > 0) { left_right_up_down.push([col-1, row]) }
+	if (col < this.size[0]-1) { left_right_up_down.push([col+1, row]) }
+	if (row > 0) {left_right_up_down.push([col, row-1])}
+	if (row < this.size[1]-1) { left_right_up_down.push([col, row+1]) }
+	
+	for (var i=0 ; i<left_right_up_down.length ; i++) {
+		var c = left_right_up_down[i][0]
+		var r = left_right_up_down[i][1]
+		if ( ( (this.cell(c, r).length === 0 && !inverted) || 
+			   (this.cell(c, r).length  >  0 &&  inverted)    ) && 
+			   !findInClosed(c, r) ) 
+		{
+			score = step+1+crowFlies([c, r] , [end_col, end_row])
+			if (!open_nodes[c][r] || (open_nodes[c][r] && open_nodes[c][r].score > score)) {
+				open_nodes[c][r] = {parent: [col, row], G: step+1, score: score}
+			}
+		}
+	}
+	
+	/**
+	 *  find the lowest scoring open node
+	 */
+	var best_node = {node: [], parent: [], score: max_distance, G: 0}
+	for (var i=0 ; i<this.size[0] ; i++) {
+	  for(var j=0 ; j<this.size[1] ; j++) {
+		if (open_nodes[i][j] && open_nodes[i][j].score < best_node.score) {
+		  best_node.node = [i, j]
+		  best_node.parent = open_nodes[i][j].parent
+		  best_node.score = open_nodes[i][j].score
+		  best_node.G = open_nodes[i][j].G
+		}
+	  }
+	}
+	if (best_node.node.length === 0) { //open_nodes is empty, no route found to end node
+	  return []
+	}
+	
+	//This doesn't stop the node being added again, but it doesn't seem to matter
+	open_nodes[best_node.node[0]][best_node.node[1]] = false
+	
+	col = best_node.node[0]
+	row = best_node.node[1]
+	step = best_node.G
+	
+	closed_nodes[col][row] = {parent: best_node.parent}
   }
   
   /**
@@ -2640,10 +2640,10 @@ jaws.TileMap.prototype.findPath = function(start_position, end_position, inverte
   var current_node = closed_nodes[col][row]
   path.unshift({x: col*this.cell_size[0], y: row*this.cell_size[1]})
   while(! (col === start_col && row === start_row) ) {
-    col = current_node.parent[0]
-    row = current_node.parent[1]
-    path.unshift({x: col*this.cell_size[0], y: row*this.cell_size[1]})
-    current_node = closed_nodes[col][row]
+	col = current_node.parent[0]
+	row = current_node.parent[1]
+	path.unshift({x: col*this.cell_size[0], y: row*this.cell_size[1]})
+	current_node = closed_nodes[col][row]
   }
   return path
   
@@ -2669,19 +2669,19 @@ jaws.TileMap.prototype.lineOfSight = function(start_position, end_position, inve
   
   while(! (x0 === x1 && y0 === y1) )
   {
-    if (inverted) { if (this.at(x0,y0).length === 0) {return false} }
-    else { if (this.at(x0,y0).length > 0) {return false} }
-    e2 = 2 * err
-    if (e2 > -dy)
-    {
-      err = err - dy
-      x0 = x0 + sx
-    }
-    if (e2 < dx)
-    {
-      err = err + dx
-      y0 = y0 + sy
-    }
+	if (inverted) { if (this.at(x0,y0).length === 0) {return false} }
+	else { if (this.at(x0,y0).length > 0) {return false} }
+	e2 = 2 * err
+	if (e2 > -dy)
+	{
+	  err = err - dy
+	  x0 = x0 + sx
+	}
+	if (e2 < dx)
+	{
+	  err = err + dx
+	  y0 = y0 + sy
+	}
   }
   
   return true
@@ -2743,16 +2743,16 @@ jaws.collideManyWithMany = function(list1, list2) {
   var a = []
 
   if(list1 === list2) {
-    combinations(list1, 2).forEach( function(pair) {
-      if( jaws.collideOneWithOne(pair[0], pair[1]) ) a.push([pair[0], pair[1]]);
-    });
+	combinations(list1, 2).forEach( function(pair) {
+	  if( jaws.collideOneWithOne(pair[0], pair[1]) ) a.push([pair[0], pair[1]]);
+	});
   }
   else {
-    list1.forEach( function(item1) { 
-      list2.forEach( function(item2) { 
-        if(jaws.collideOneWithOne(item1, item2)) a.push([item1, item2])
-      });
-    });
+	list1.forEach( function(item1) { 
+	  list2.forEach( function(item2) { 
+		if(jaws.collideOneWithOne(item1, item2)) a.push([item1, item2])
+	  });
+	});
   }
 
   return a;
@@ -2772,7 +2772,7 @@ jaws.collideCircles = function(object1, object2) {
  */
 jaws.collideRects = function(rect1, rect2) {
   return ((rect1.x >= rect2.x && rect1.x <= rect2.right) || (rect2.x >= rect1.x && rect2.x <= rect1.right)) &&
-         ((rect1.y >= rect2.y && rect1.y <= rect2.bottom) || (rect2.y >= rect1.y && rect2.y <= rect1.bottom))
+		 ((rect1.y >= rect2.y && rect1.y <= rect2.bottom) || (rect2.y >= rect1.y && rect2.y <= rect1.bottom))
 }
 
 /** 
@@ -2785,23 +2785,23 @@ jaws.distanceBetween = function(object1, object2) {
 /** private */
 function combinations(list, n) {
   var f = function(i) {
-    if(list.isSpriteList !== undefined) {
-      return list.at(i)
-    } else {  // s is an Array
-      return list[i];
-    }
+	if(list.isSpriteList !== undefined) {
+	  return list.at(i)
+	} else {  // s is an Array
+	  return list[i];
+	}
   };
   var r = [];
   var m = new Array(n);
   for (var i = 0; i < n; i++) m[i] = i; 
   for (var i = n - 1, sn = list.length; 0 <= i; sn = list.length) {
-    r.push( m.map(f) );
-    while (0 <= i && m[i] == sn - 1) { i--; sn--; }
-    if (0 <= i) { 
-      m[i] += 1;
-      for (var j = i + 1; j < n; j++) m[j] = m[j-1] + 1;
-      i = n - 1;
-    }
+	r.push( m.map(f) );
+	while (0 <= i && m[i] == sn - 1) { i--; sn--; }
+	if (0 <= i) { 
+	  m[i] += 1;
+	  for (var j = i + 1; j < n; j++) m[j] = m[j-1] + 1;
+	  i = n - 1;
+	}
   }
   return r;
 }
@@ -2853,39 +2853,39 @@ var jaws = (function(jaws) {
    * Returns a canvas.
    */
   jaws.gfx.retroScaleImage = function(image, factor) {
-    var canvas = jaws.isImage(image) ? jaws.imageToCanvas(image) : image
-    var context = canvas.getContext("2d")
-    var data = context.getImageData(0,0,canvas.width,canvas.height).data
+	var canvas = jaws.isImage(image) ? jaws.imageToCanvas(image) : image
+	var context = canvas.getContext("2d")
+	var data = context.getImageData(0,0,canvas.width,canvas.height).data
 
-    // Create new canvas to return
-    var canvas2 = document.createElement("canvas")
-    canvas2.width = image.width * factor
-    canvas2.height = image.height * factor
-    var context2 = canvas2.getContext("2d")
-    var to_data = context2.createImageData(canvas2.width, canvas2.height)
+	// Create new canvas to return
+	var canvas2 = document.createElement("canvas")
+	canvas2.width = image.width * factor
+	canvas2.height = image.height * factor
+	var context2 = canvas2.getContext("2d")
+	var to_data = context2.createImageData(canvas2.width, canvas2.height)
 
-    var w2 = to_data.width
-    var h2 = to_data.height
-    for (var y=0; y < h2; y += 1) {
-      var y2 = Math.floor(y / factor)
-      var y_as_x = y * to_data.width
-      var y2_as_x = y2 * image.width
+	var w2 = to_data.width
+	var h2 = to_data.height
+	for (var y=0; y < h2; y += 1) {
+	  var y2 = Math.floor(y / factor)
+	  var y_as_x = y * to_data.width
+	  var y2_as_x = y2 * image.width
 
-      for (var x=0; x < w2; x += 1) {
-        var x2 = Math.floor(x / factor)
-        var y_dst = (y_as_x + x) * 4
-        var y_src = (y2_as_x + x2) * 4
-        
-        to_data.data[y_dst] = data[y_src];
-        to_data.data[y_dst+1] = data[y_src+1];
-        to_data.data[y_dst+2] = data[y_src+2];
-        to_data.data[y_dst+3] = data[y_src+3];
-      }
-    }
+	  for (var x=0; x < w2; x += 1) {
+		var x2 = Math.floor(x / factor)
+		var y_dst = (y_as_x + x) * 4
+		var y_src = (y2_as_x + x2) * 4
+		
+		to_data.data[y_dst] = data[y_src];
+		to_data.data[y_dst+1] = data[y_src+1];
+		to_data.data[y_dst+2] = data[y_src+2];
+		to_data.data[y_dst+3] = data[y_src+3];
+	  }
+	}
 
-    context2.putImageData(to_data, 0, 0)
+	context2.putImageData(to_data, 0, 0)
 
-    return canvas2
+	return canvas2
   }
 
   return jaws;
