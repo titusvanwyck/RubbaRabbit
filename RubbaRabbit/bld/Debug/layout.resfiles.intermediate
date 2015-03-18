@@ -6,6 +6,7 @@ game-media\button-pause.png
 game-media\button-right.png
 game-media\button-up.png
 game-media\die.mp3
+game-media\dragon.png
 game-media\elf.png
 game-media\elf2.png
 game-media\enemies.png
@@ -27,6 +28,8 @@ game-media\success.mp3
 game-media\swish.mp3
 game-media\tiles.png
 game-media\titlescreen.png
+game-media\troll.png
+game-media\wolf.png
 images\badge.scale-100.png
 images\badge.scale-140.png
 images\badge.scale-180.png

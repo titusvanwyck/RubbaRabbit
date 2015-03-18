@@ -20,7 +20,7 @@
     <AppXManifest Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-02-11T20:19:34.994</Modified>
+      <Modified>2015-03-02T21:47:56.895</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +43,10 @@
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\button-up.png">
       <PackagePath>game-media\button-up.png</PackagePath>
       <Modified>2014-12-08T16:59:05.636</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\dragon.png">
+      <PackagePath>game-media\dragon.png</PackagePath>
+      <Modified>2015-02-16T20:43:30.614</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\elf.png">
       <PackagePath>game-media\elf.png</PackagePath>
@@ -87,6 +91,14 @@
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\titlescreen.png">
       <PackagePath>game-media\titlescreen.png</PackagePath>
       <Modified>2014-12-08T16:59:07.151</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\troll.png">
+      <PackagePath>game-media\troll.png</PackagePath>
+      <Modified>2015-02-21T19:15:03.973</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\wolf.png">
+      <PackagePath>game-media\wolf.png</PackagePath>
+      <Modified>2015-03-02T21:48:39.388</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\images\badge.scale-100.png">
       <PackagePath>images\badge.scale-100.png</PackagePath>
@@ -456,19 +468,19 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\level1.js">
       <PackagePath>game-media\level1.js</PackagePath>
-      <Modified>2015-02-16T21:55:31.891</Modified>
+      <Modified>2015-03-09T19:53:08.108</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\level2.js">
       <PackagePath>game-media\level2.js</PackagePath>
-      <Modified>2015-02-16T21:55:31.930</Modified>
+      <Modified>2015-03-09T19:53:08.160</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\level3.js">
       <PackagePath>game-media\level3.js</PackagePath>
-      <Modified>2015-02-16T21:55:32.030</Modified>
+      <Modified>2015-03-09T19:53:08.279</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\level4.js">
       <PackagePath>game-media\level4.js</PackagePath>
-      <Modified>2015-02-16T21:55:32.057</Modified>
+      <Modified>2015-03-09T19:53:08.326</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\js\default.js">
       <PackagePath>js\default.js</PackagePath>
@@ -476,11 +488,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\js\ludus.js">
       <PackagePath>js\ludus.js</PackagePath>
-      <Modified>2015-03-02T17:47:10.460</Modified>
+      <Modified>2015-03-09T20:20:29.275</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\js\howler.js">
       <PackagePath>js\howler.js</PackagePath>
-      <Modified>2014-12-08T16:59:08.620</Modified>
+      <Modified>2015-03-02T21:09:35.339</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\js\jaws.js">
       <PackagePath>js\jaws.js</PackagePath>
@@ -500,7 +512,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2015-02-11T20:19:34.767</Modified>
+      <Modified>2015-03-02T21:47:56.614</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

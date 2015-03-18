@@ -31,6 +31,9 @@
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\button-up.png">
       <PackagePath>game-media\button-up.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\dragon.png">
+      <PackagePath>game-media\dragon.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\elf.png">
       <PackagePath>game-media\elf.png</PackagePath>
     </AppxPackagedFile>
@@ -63,6 +66,12 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\titlescreen.png">
       <PackagePath>game-media\titlescreen.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\troll.png">
+      <PackagePath>game-media\troll.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\game-media\wolf.png">
+      <PackagePath>game-media\wolf.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\titus_000\Documents\GitHub\RubbaRabbit\RubbaRabbit\images\badge.scale-100.png">
       <PackagePath>images\badge.scale-100.png</PackagePath>

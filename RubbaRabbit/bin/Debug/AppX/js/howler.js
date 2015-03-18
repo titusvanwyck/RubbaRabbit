@@ -61,7 +61,7 @@
           if (cache.hasOwnProperty(key) && cache[key]._webAudio === false) {
             // loop through the audio nodes
             for (var i=0; i<cache[key]._audioNode.length; i++) {
-              cache[key]._audioNode[i].volume = cache[key]._volume * self._volume;
+              cache[key]._audioNode[i].volume = cache[key]._volume * s._volume;
             }
           }
         }

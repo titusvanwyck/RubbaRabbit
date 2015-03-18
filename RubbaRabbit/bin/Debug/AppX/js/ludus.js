@@ -108,7 +108,7 @@ THE SOFTWARE.
     var enemies; // a sprite list filled with enemies
 
     //TODO - FW
-    var enemy_framesize = [40, 40]; // pixel dimensions of the enemy sprite (if any)
+    var enemy_framesize = [128, 96]; // pixel dimensions of the enemy sprite (if any)
 
     var enemy_destroy_points = 100; // score for destroying an enemy
     var num_enemies = 0; // depends on the enemies layer in the level data
@@ -144,6 +144,8 @@ THE SOFTWARE.
 
     // levels
     var level = []; // an array of jason level data objects
+
+    //TODO - FW
     var starting_level_number = 0; // should be zero except when testing
     var current_level_number = starting_level_number; // which one are we playing?
     var pendingLevelComplete = false; // do we need to change levels next frame?
@@ -665,7 +667,7 @@ THE SOFTWARE.
                 player.move_anim = player.animation.slice(4, 7);
                 //player.jump_anim = player.animation.slice(2, 3);
                 player.jump_anim = player.animation.slice(2, 3);
-                player.fall_anim = player.animation.slice(0, 1);
+                player.fall_anim = player.animation.slice(8, 9);
                 player.attack_anim = player.animation.slice(9, 11);
                 player.setImage(player.animation.frames[8]);
                 //NOP: player.top_offset++; // nudge one pixel down to account for physics "nudge"
@@ -1212,19 +1214,42 @@ THE SOFTWARE.
 
             switch (nme.enemytype) {
                 case 1:
-                    //Dragon                    
-                    if (player.x > nme.x && (player.x - nme.x) > 6) {
-                        nme.x += enemy_speed;
-                        nme.flipped = 1;
-                    } else if (player.x < nme.x && (nme.x - player.x) > 6) {
-                        nme.x -= enemy_speed;
-                        nme.flipped = 0;
-                    }
+                    //Wolf                    
+                    //if (player.x > nme.x && (player.x - nme.x) > 6) {
+                    //    nme.x += enemy_speed;
+                    //    nme.flipped = 1;
+                    //} else if (player.x < nme.x && (nme.x - player.x) > 6) {
+                    //    nme.x -= enemy_speed;
+                    //    nme.flipped = 0;
+                    //}
 
-                    if (player.y > nme.y) {
-                        nme.y += (enemy_speed / 2);
-                    } else if (player.y < nme.y) {
-                        nme.y -= (enemy_speed / 2);
+                    //if (player.y > nme.y) {
+                    //    nme.y += (enemy_speed / 2);
+                    //} else if (player.y < nme.y) {
+                    //    nme.y -= (enemy_speed / 2);
+                    //}
+
+                    switch (nme.direction) {
+                        case -1:
+                            nme.flipped = 1;
+                            nme.x -= 1;
+                            nme.platformlocation -= 1;
+
+                            if (nme.platformlocation === -40) {
+                                nme.direction = 1;
+                            }
+
+                            break;
+                        case 1:
+                            nme.flipped = 0;
+                            nme.x += 1;
+                            nme.platformlocation += 1;
+
+                            if (nme.platformlocation === 76) {
+                                nme.direction = -1;
+                            }
+
+                            break;
                     }
 
                     break;
@@ -1937,13 +1962,17 @@ THE SOFTWARE.
 
                     num_enemies++;
 
-                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: false });
-                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("dragon.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
-                    anenemy.move_anim = anenemy.animation.slice(3, 7);
-                    anenemy.setImage(anenemy.animation.frames[3]);
-                    anenemy.action = enemyActionFunction;
+                    var anenemy = new jaws.Sprite({ x: i * TILESIZE, y: i2 * TILESIZE, anchor: "center_center", flipped: true });
+                    anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("wolf.png"), frame_size: enemy_framesize, frame_duration: 150, bounce: true });
+                    anenemy.move_anim = anenemy.animation.slice(7, 12);
+                    anenemy.setImage(anenemy.animation.frames[0]);
+                    anenemy.action = dangerActionFunction;
                     anenemy.hitaction = enemyDestroyFunction;
                     anenemy.enemytype = 1; // see above
+
+                    anenemy.platformlocation = 0;
+                    anenemy.direction = -1;
+
                     enemies.push(anenemy);
 
                 }
@@ -1982,7 +2011,7 @@ THE SOFTWARE.
                     anenemy.animation = new jaws.Animation({ sprite_sheet: jaws.assets.get("wizard.png"), frame_size: enemy_framesize, frame_duration: 250, bounce: true });
                     anenemy.move_anim = anenemy.animation.slice(4, 7);
                     anenemy.setImage(anenemy.animation.frames[8]);
-                    anenemy.action = enemyActionFunction;
+                    anenemy.action = dangerActionFunction;
                     anenemy.hitaction = enemyDestroyFunction;
                     anenemy.enemytype = 2; // see above
 
@@ -2421,7 +2450,7 @@ THE SOFTWARE.
 
         // start downloading all the art using a preloader progress screen
         jaws.assets.root = "game-media/";
-        jaws.assets.add(["titlescreen.png", "gui.png", "font.png", "parallax.png", "archer.png", "particles.png", "tiles.png", "msgbox.png", "enemies.png"]);
+        jaws.assets.add(["titlescreen.png", "gui.png", "font.png", "parallax.png", "archer.png", "troll.png", "particles.png", "tiles.png", "msgbox.png", "wolf.png"]);
 
         // once the art has been loaded we will create an instance of this class
         // and begin by running its setup function, then the update/draw loop
